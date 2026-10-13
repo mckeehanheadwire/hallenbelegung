@@ -5,10 +5,13 @@
   "scripts": {
     "dev": "wrangler dev --env dev --port 8787",
     "setup:wren": "node scripts/setup-wren-dev.mjs",
-    "test": "node --test test/*.test.mjs",
+    "test": "node --test",
     "deploy:api": "wrangler deploy",
     "deploy:site": "bash deploy_site.sh",
     "publish:site": "bash deploy_site.sh --promote"
+  },
+  "engines": {
+    "node": ">=22"
   },
   "devDependencies": {
     "wrangler": "^4.150.0"

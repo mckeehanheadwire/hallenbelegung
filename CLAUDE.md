@@ -10,6 +10,8 @@ Prototype for municipalities (pilot: Muri bei Bern) to implement the Swiss Olymp
 - **Backend data: WREN** (wren.aemwip.com). All data lives there: halls, bookings, calendar, requests,
   booking holders, and the app files themselves (public tree `site`).
 - **Server side: one Cloudflare Worker** (`worker/`), plain JavaScript, no runtime dependencies.
+- **Node.js 22 or newer** (`engines` in package.json, `.nvmrc`; Wrangler 4 needs it). `npm install` refuses older
+  versions (`engine-strict`). Don't use features newer than Node 22.
 - **Wrangler is the only dependency** (dev-only: local dev and deploy).
 - **Everything is self-hosted:** fonts (Figtree, woff2 in `app/`), logo and images are served with the
   app – no Google Fonts or other third-party hosts.

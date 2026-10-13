@@ -27,7 +27,7 @@ Browser ──► Cloudflare Worker (worker/)  ──►  WREN (wren.aemwip.com,
 
 ## Run it locally
 
-Prerequisites: Node.js 20+, npm and **your own WREN test
+Prerequisites: **Node.js 22 or newer** (Wrangler 4 requires it; `.nvmrc` pins 22 – run `nvm use`), npm and **your own WREN test
 account** – local development never uses the production data.
 
 1. **Create a WREN test account** at <https://wren.aemwip.com/admin>, then create an API key there.
@@ -78,7 +78,7 @@ claude mcp add --transport http hallen-local http://localhost:8787/mcp   # Claud
 npm test
 ```
 
-Runs `node --test` on `test/`: the plan logic and the Worker (called in-process against an in-memory
+Runs `node --test` (all `*.test.mjs` files in `test/`; Node 22+): the plan logic and the Worker (called in-process against an in-memory
 fake of the WREN API – no network, no Wrangler needed).
 
 ## Deploy
