@@ -3,10 +3,10 @@
   "private": true,
   "description": "Hallenbelegung Muri-Gümligen: static app on WREN + Cloudflare Worker for club requests",
   "scripts": {
-    "dev": "wrangler dev --env dev --port 8787",
-    "setup:wren": "node scripts/setup-wren-dev.mjs",
-    "test": "node --test",
-    "deploy:api": "wrangler deploy",
+    "dev": "node scripts/node.mjs node_modules/wrangler/bin/wrangler.js dev --env dev --port 8787",
+    "setup:wren": "node scripts/node.mjs scripts/setup-wren-dev.mjs",
+    "test": "node scripts/node.mjs --test",
+    "deploy:api": "node scripts/node.mjs node_modules/wrangler/bin/wrangler.js deploy",
     "deploy:site": "bash deploy_site.sh",
     "publish:site": "bash deploy_site.sh --promote"
   },

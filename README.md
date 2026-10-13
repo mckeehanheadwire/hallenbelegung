@@ -27,8 +27,13 @@ Browser ──► Cloudflare Worker (worker/)  ──►  WREN (wren.aemwip.com,
 
 ## Run it locally
 
-Prerequisites: **Node.js 22 or newer** (Wrangler 4 requires it; `.nvmrc` pins 22 – run `nvm use`), npm and **your own WREN test
+Prerequisites: Node.js with npm and **your own WREN test
 account** – local development never uses the production data.
+
+The project needs **Node.js 22 or newer** (Wrangler 4 requires it). If yours is older, nothing to do:
+all `npm run …`/`npm test` commands go through `scripts/node.mjs`, which then downloads the official
+Node 22 once into `.node/` (git-ignored, checksum-verified) and uses it – no global install. With nvm,
+`nvm use` picks the version from `.nvmrc` instead.
 
 1. **Create a WREN test account** at <https://wren.aemwip.com/admin>, then create an API key there.
 2. **Configure** – copy the example and fill it in:
