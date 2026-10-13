@@ -27,7 +27,7 @@ Browser ──► Cloudflare Worker (worker/)  ──►  WREN (wren.aemwip.com,
 
 ## Run it locally
 
-Prerequisites: Node.js 20+, npm, Python 3 (for the WREN setup script) and **your own WREN test
+Prerequisites: Node.js 20+, npm and **your own WREN test
 account** – local development never uses the production data.
 
 1. **Create a WREN test account** at <https://wren.aemwip.com/admin>, then create an API key there.
@@ -50,7 +50,7 @@ account** – local development never uses the production data.
    the bookings from `belegung_bloecke.csv`, school holidays – all published):
 
    ```bash
-   python scripts/setup_wren_dev.py     # refuses to run against the production org
+   npm run setup:wren               # refuses to run against the production org
    ```
 
    Run it again with another `WREN_PREFIX` for an additional environment.
@@ -97,16 +97,12 @@ npx wrangler secret put SESSION_SECRET
 npx wrangler secret put ADMIN_MCP_TOKEN
 ```
 
-## Data import scripts
+## Data
 
-| Script | Purpose |
-|---|---|
-| `scripts/pdf_extract.py` + `scripts/pdf_build_blocks.py` | Read the Gemeinde's colour-coded Fixbelegungsplan PDF into `belegung_bloecke.csv` (needs `pip install pymupdf`) |
-| `scripts/setup_wren_dev.py` | Bootstrap a WREN **test** org/prefix with all data (local development) |
-| `wren_import.py` | Load `belegung_bloecke.csv` into WREN (`halls`, `bookings`) – production |
-| `wren_calendar_import.py [--publish]` | School holidays (Ferienordnung) into `calendar`; limits bookings to the school year |
-
-All scripts are idempotent (natural keys + by-key upserts) and read the key from `.wren-key`.
+`belegung_bloecke.csv` holds the bookings read once from the Gemeinde's Fixbelegungsplan PDF
+(`2026_Fixbelegungsplaene_Sportanlagen.pdf`, Stand 17.09.2026); `belegung_halbstunden.csv` is the same
+plan in half-hour cells. The school holidays (Ferienordnung 2026-27) are in `scripts/setup-wren-dev.mjs`.
+Production data is maintained in the admin page or via the admin MCP server, not by scripts.
 
 ## Files that must never be committed
 

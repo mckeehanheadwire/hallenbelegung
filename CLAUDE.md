@@ -14,9 +14,8 @@ Prototype for municipalities (pilot: Muri bei Bern) to implement the Swiss Olymp
 - **Everything is self-hosted:** fonts (Figtree, woff2 in `app/`), logo and images are served with the
   app – no Google Fonts or other third-party hosts.
 - **Scripts are written in Node.js** (plain `.mjs`, standard library and built-in `fetch` only).
-  No new Python or shell scripts – fewer languages in the project. The existing Python scripts
-  (`scripts/*.py`, `wren_import.py`, `wren_calendar_import.py`) and `deploy_site.sh` are legacy;
-  port them to Node when they are next changed.
+  No Python – fewer languages in the project. `deploy_site.sh` (bash) may stay.
+- Remove scripts that are no longer in use instead of keeping them around.
 - Established choices (made during the build, keep unless there is a reason to change):
   - MCP server for LLMs is hand-written JSON-RPC (`worker/mcp.js`), no MCP SDK.
   - Tests use Node's built-in runner (`node --test`) with an in-memory fake of WREN; no test framework.
