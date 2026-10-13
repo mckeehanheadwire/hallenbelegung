@@ -1,0 +1,216 @@
+// Interface translations (DE/FR/EN) — plain JS, no dependencies.
+// Data entered by admins (hall, space and club names) is not translated.
+// Language: ?lang=fr in the URL, else the last choice, else the browser language, else German.
+
+export const LANGS = ["de", "fr", "en"];
+const LOCALES = { de: "de-CH", fr: "fr-CH", en: "en-GB" };
+
+const DICT = {
+  de: {
+    "hall.holidaysOpen": "Schulferien: Schulbelegungen entfallen, Vereine und Private dürfen die Halle nutzen.", "hall.holidaysClosed": "Schulferien: Die Halle ist geschlossen.",
+    "cal.schoolFree": "{name} ({from} – {to}): unterrichtsfrei, Schulbelegungen entfallen.",
+    "cal.holiday": "{name} ({from} – {to}): Schulbelegungen entfallen, Vereinszeiten gelten weiter.", "cal.holidayClosed": "{name} ({from} – {to}): Die Halle ist geschlossen.",
+    "cal.planOpen": "Der Belegungsplan gilt bis {date}. Für das nächste Schuljahr ist er noch nicht festgelegt – Anfragen sind trotzdem möglich.",
+    "cal.view": "Ansicht", "cal.tag": "Tag", "cal.woche": "Woche", "cal.monat": "Monat", "cal.today": "Heute", "cal.prev": "Zurück", "cal.next": "Weiter",
+    "cal.week": "KW", "cal.eveFree": "ab 17 Uhr {h} h frei", "cal.eveFull": "abends belegt", "cal.monthHint": "Tippen Sie auf einen Tag für die Tagesansicht.",
+    "proto": "Prototyp – kein offizielles Angebot der Gemeinde Muri bei Bern. Daten: Fixbelegungspläne 2026.",
+    "brand.app": "Hallenbelegung",
+    "lang.label": "Sprache",
+    "menu": "Menü", "menu.close": "Schliessen",
+    "nav.main": "Hauptnavigation", "nav.path": "Pfad",
+    "m.news": "Aktuelles & Porträt", "m.politics": "Politik & Verwaltung", "m.living": "Wohnen & Arbeiten", "m.education": "Bildung & Soziales", "m.leisure": "Freizeit & Kultur",
+    "m.aarebad": "Aarebad", "m.ferry": "Fähre", "m.culture": "Kultur", "m.sport": "Sport", "m.events": "Veranstaltungen", "m.venues": "Veranstaltungslokalitäten", "m.clubs": "Vereine",
+    "m.pool": "Hallenbad Melchenbühl", "m.tennis": "Öffentlicher Tennisplatz", "m.shooting": "Schützenhaus", "m.halls": "Sporthallen", "m.fuellerich": "Sportzentrum Füllerich", "m.reservation": "Reservationsanfrage",
+    "tab.overview": "Übersicht", "tab.free": "Freie Zeiten", "tab.tips": "Tipps",
+    "side.overview": "Übersicht", "side.free": "Freie Zeiten finden", "side.tips": "Tipps für Vereine",
+    "loading": "Lade Belegungsdaten …",
+    "home.title": "Sporthallen",
+    "home.intro": "Wöchentliche Fixbelegung aller Sporthallen und des Lehrschwimmbeckens. Finden Sie freie Zeiten und fragen Sie diese direkt an.",
+    "home.cta": "Freie Zeiten finden →",
+    "stat.occupancy": "Auslastung", "stat.occupancyAria": "Auslastung {pct} Prozent",
+    "stat.evening": "Frei ab 17 Uhr (Mo–Fr)", "stat.weekend": "Frei am Wochenende", "stat.closed": "geschlossen",
+    "hall.summary": "Auslastung {pct}% · {booked} h belegt · {free} h frei", "hall.closedHours": " · {h} h nicht verfügbar",
+    "hall.season": "Saison", "season.summer": "Sommer", "season.winter": "Winter",
+    "hall.clickFree": "Klicken Sie auf ein freies Feld, um diese Zeit anzufragen.", "hall.swipe": " Wischen Sie seitwärts für alle Tage.",
+    "hall.divisible": "Teilbar in {units} · buchbar: {spaces}",
+    "free": "frei", "free.request": "{day} {from}–{to} frei – anfragen",
+    "legend.schule": "Schule", "legend.privschule": "Private / externe Schule", "legend.verein": "Verein / Stiftung", "legend.privat": "Private Gruppe",
+    "legend.reinigung": "Reinigung", "legend.nv": "nicht verfügbar", "legend.free": "frei",
+    "finder.title": "Freie Zeiten finden", "finder.days": "Tage", "finder.from": "Ab", "finder.min": "Mindestdauer", "finder.hall": "Halle", "finder.all": "Alle",
+    "finder.count": "{n} freie Zeitfenster", "finder.none": "Keine freien Zeiten mit diesen Kriterien.",
+    "col.day": "Tag", "col.time": "Zeit", "col.duration": "Dauer", "col.hall": "Halle", "btn.request": "Anfragen",
+    "tips.title": "Tipps für Vereine",
+    "tips.source": "Aus den Guidelines {link} von Swiss Olympic und den Sportverbänden.", "tips.link": "«Sporthallen effizient nutzen»",
+    "tip1.t": "Co-Training", "tip1.d": "Zwei Vereine oder mehrere Teams teilen sich eine Hallenzeit – z. B. für Athletik oder polysportive Inhalte. Markieren Sie bei der Anfrage «offen für Co-Training».",
+    "tip2.t": "Kürzere, aktivere Einheiten", "tip2.d": "Warm-up ausserhalb der Halle, Material vor Trainingsbeginn bereitstellen, Inhalte klar priorisieren. So passen mehr Teams in einen Abend.",
+    "tip3.t": "Wochenenden nutzen", "tip3.d": "Spiele und Trainings am Wochenende entlasten die Abende unter der Woche. Mehrere Hallen in Muri-Gümligen sind am Wochenende kaum belegt.",
+    "tip4.t": "Belegungen jährlich bestätigen", "tip4.d": "Melden Sie nicht mehr benötigte Zeiten zurück, damit Teams auf der Warteliste nachrücken können.",
+    "tip5.t": "Mehrzweckräume", "tip5.d": "Athletik, Yoga oder Krafttraining können oft in Mehrzweckräumen stattfinden und entlasten die Sporthallen.",
+    "notfound": "Nicht gefunden", "notfound.back": "Zur Übersicht", "nodata": "Daten nicht verfügbar",
+    "req.title": "Hallenzeit anfragen", "req.slot": "{hall} · {day} · frei {from}–{to}", "req.area": "Bereich", "req.from": "Von", "req.to": "Bis",
+    "req.club": "Verein / Gruppe", "req.contact": "Kontaktperson", "req.email": "E-Mail", "req.team": "Team / Altersgruppe",
+    "team.youth": "Junioren / Jugend (U20)", "team.adults": "Erwachsene", "team.seniors": "Senioren", "team.mixed": "Gemischt",
+    "req.kind": "Art der Belegung", "kind.weekly": "Dauerbelegung (wöchentlich)", "kind.single": "Einzelbelegung",
+    "req.people": "Anzahl Personen", "req.share": "Wir sind offen für Co-Training / Hallenteilung", "req.showName": "Unseren Vereinsnamen im öffentlichen Belegungsplan anzeigen",
+    "req.note": "Bemerkungen", "req.info": "Die Anfrage geht an die Abteilung Sport der Gemeinde. Sie erhalten eine Antwort per E-Mail.",
+    "req.cancel": "Abbrechen", "req.send": "Anfrage senden", "req.sending": "Wird gesendet …", "req.timeOrder": "«Bis» muss nach «Von» liegen.",
+    "req.failed": "Anfrage konnte nicht gesendet werden: {msg}", "req.thanks": "Danke! Ihre Anfrage für {hall}, {day} {from}–{to} ist eingegangen.",
+    "footer.h1": "Hallenbelegung Muri bei Bern", "footer.p1": "Prototyp für eine transparente Vergabe von Hallenzeiten nach den Empfehlungen von {link}.", "footer.link1": "Swiss Olympic «Sporthallen effizient nutzen»",
+    "footer.h2": "Datengrundlage", "footer.p2": "Fixbelegungspläne Sportanlagen 2026 der Gemeinde Muri bei Bern, Stand 17.09.2026. Massgebend ist der offizielle Belegungsplan der Gemeinde.",
+    "day.Montag": "Montag", "day.Dienstag": "Dienstag", "day.Mittwoch": "Mittwoch", "day.Donnerstag": "Donnerstag", "day.Freitag": "Freitag", "day.Samstag": "Samstag", "day.Sonntag": "Sonntag",
+    "dayShort": "Mo,Di,Mi,Do,Fr,Sa,So",
+    "cat.Schule": "Schule", "cat.Private Schule": "Private Schule", "cat.Schule extern": "Schule extern", "cat.Verein/Stiftung": "Verein/Stiftung",
+    "cat.Private Gruppe": "Private Gruppe", "cat.Reinigung": "Reinigung", "cat.nicht verfügbar": "nicht verfügbar",
+    "short.Verein/Stiftung": "Verein", "short.Private Schule": "Priv. Schule", "short.Schule extern": "Schule ext.", "short.Private Gruppe": "Privat", "short.nicht verfügbar": "geschlossen",
+  },
+  fr: {
+    "hall.holidaysOpen": "Vacances scolaires : pas d'occupation scolaire, les clubs et groupes privés peuvent utiliser la salle.", "hall.holidaysClosed": "Vacances scolaires : la salle est fermée.",
+    "cal.schoolFree": "{name} ({from} – {to}) : pas d'école, pas d'occupation scolaire.",
+    "cal.holiday": "{name} ({from} – {to}) : pas d'occupation scolaire, les créneaux des clubs restent valables.", "cal.holidayClosed": "{name} ({from} – {to}) : la salle est fermée.",
+    "cal.planOpen": "Le plan d'occupation est valable jusqu'au {date}. Il n'est pas encore établi pour l'année scolaire suivante – les demandes restent possibles.",
+    "cal.view": "Vue", "cal.tag": "Jour", "cal.woche": "Semaine", "cal.monat": "Mois", "cal.today": "Aujourd'hui", "cal.prev": "Précédent", "cal.next": "Suivant",
+    "cal.week": "Sem.", "cal.eveFree": "dès 17 h : {h} h libres", "cal.eveFull": "soirée occupée", "cal.monthHint": "Touchez un jour pour la vue journalière.",
+    "proto": "Prototype – pas une offre officielle de la commune de Muri bei Bern. Données : plans d'occupation 2026.",
+    "brand.app": "Occupation des salles",
+    "lang.label": "Langue",
+    "menu": "Menu", "menu.close": "Fermer",
+    "nav.main": "Navigation principale", "nav.path": "Chemin",
+    "m.news": "Actualités & portrait", "m.politics": "Politique & administration", "m.living": "Habiter & travailler", "m.education": "Formation & social", "m.leisure": "Loisirs & culture",
+    "m.aarebad": "Piscine de l'Aar", "m.ferry": "Bac", "m.culture": "Culture", "m.sport": "Sport", "m.events": "Manifestations", "m.venues": "Salles de manifestation", "m.clubs": "Sociétés",
+    "m.pool": "Piscine couverte Melchenbühl", "m.tennis": "Court de tennis public", "m.shooting": "Stand de tir", "m.halls": "Salles de sport", "m.fuellerich": "Centre sportif Füllerich", "m.reservation": "Demande de réservation",
+    "tab.overview": "Aperçu", "tab.free": "Créneaux libres", "tab.tips": "Conseils",
+    "side.overview": "Aperçu", "side.free": "Trouver des créneaux libres", "side.tips": "Conseils pour les clubs",
+    "loading": "Chargement des données d'occupation …",
+    "home.title": "Salles de sport",
+    "home.intro": "Occupation hebdomadaire fixe de toutes les salles de sport et du bassin d'apprentissage. Trouvez des créneaux libres et demandez-les directement.",
+    "home.cta": "Trouver des créneaux libres →",
+    "stat.occupancy": "Taux d'occupation", "stat.occupancyAria": "Taux d'occupation {pct} pour cent",
+    "stat.evening": "Libre dès 17 h (lu–ve)", "stat.weekend": "Libre le week-end", "stat.closed": "fermé",
+    "hall.summary": "Occupation {pct} % · {booked} h occupées · {free} h libres", "hall.closedHours": " · {h} h non disponibles",
+    "hall.season": "Saison", "season.summer": "Été", "season.winter": "Hiver",
+    "hall.clickFree": "Cliquez sur un créneau libre pour le demander.", "hall.swipe": " Faites glisser latéralement pour voir tous les jours.",
+    "hall.divisible": "Divisible en {units} · réservable : {spaces}",
+    "free": "libre", "free.request": "{day} {from}–{to} libre – demander",
+    "legend.schule": "École", "legend.privschule": "École privée / externe", "legend.verein": "Club / fondation", "legend.privat": "Groupe privé",
+    "legend.reinigung": "Nettoyage", "legend.nv": "non disponible", "legend.free": "libre",
+    "finder.title": "Trouver des créneaux libres", "finder.days": "Jours", "finder.from": "Dès", "finder.min": "Durée minimale", "finder.hall": "Salle", "finder.all": "Toutes",
+    "finder.count": "{n} créneaux libres", "finder.none": "Aucun créneau libre avec ces critères.",
+    "col.day": "Jour", "col.time": "Heure", "col.duration": "Durée", "col.hall": "Salle", "btn.request": "Demander",
+    "tips.title": "Conseils pour les clubs",
+    "tips.source": "Tirés des lignes directrices {link} de Swiss Olympic et des fédérations sportives.", "tips.link": "« Sporthallen effizient nutzen »",
+    "tip1.t": "Co-entraînement", "tip1.d": "Deux clubs ou plusieurs équipes partagent un créneau – p. ex. pour la condition physique ou des contenus polysportifs. Cochez « ouvert au co-entraînement » dans la demande.",
+    "tip2.t": "Séances plus courtes et plus actives", "tip2.d": "Échauffement hors de la salle, matériel prêt avant le début, contenus clairement priorisés : ainsi plus d'équipes trouvent place dans une soirée.",
+    "tip3.t": "Utiliser les week-ends", "tip3.d": "Les matchs et entraînements le week-end soulagent les soirées de semaine. Plusieurs salles de Muri-Gümligen sont peu occupées le week-end.",
+    "tip4.t": "Confirmer les occupations chaque année", "tip4.d": "Annoncez les créneaux dont vous n'avez plus besoin, afin que les équipes en liste d'attente puissent en profiter.",
+    "tip5.t": "Salles polyvalentes", "tip5.d": "La condition physique, le yoga ou la musculation peuvent souvent avoir lieu dans des salles polyvalentes et soulager les salles de sport.",
+    "notfound": "Page introuvable", "notfound.back": "Retour à l'aperçu", "nodata": "Données non disponibles",
+    "req.title": "Demander un créneau", "req.slot": "{hall} · {day} · libre {from}–{to}", "req.area": "Espace", "req.from": "De", "req.to": "À",
+    "req.club": "Club / groupe", "req.contact": "Personne de contact", "req.email": "E-mail", "req.team": "Équipe / catégorie d'âge",
+    "team.youth": "Juniors / jeunesse (U20)", "team.adults": "Adultes", "team.seniors": "Seniors", "team.mixed": "Mixte",
+    "req.kind": "Type d'occupation", "kind.weekly": "Occupation fixe (hebdomadaire)", "kind.single": "Occupation unique",
+    "req.people": "Nombre de personnes", "req.share": "Nous sommes ouverts au co-entraînement / au partage de la salle", "req.showName": "Afficher le nom de notre club dans le plan public",
+    "req.note": "Remarques", "req.info": "La demande est transmise au service des sports de la commune. Vous recevrez une réponse par e-mail.",
+    "req.cancel": "Annuler", "req.send": "Envoyer la demande", "req.sending": "Envoi en cours …", "req.timeOrder": "« À » doit être après « De ».",
+    "req.failed": "La demande n'a pas pu être envoyée : {msg}", "req.thanks": "Merci ! Votre demande pour {hall}, {day} {from}–{to} a bien été reçue.",
+    "footer.h1": "Occupation des salles Muri bei Bern", "footer.p1": "Prototype pour une attribution transparente des créneaux selon les recommandations de {link}.", "footer.link1": "Swiss Olympic « Sporthallen effizient nutzen »",
+    "footer.h2": "Données", "footer.p2": "Plans d'occupation fixe 2026 des installations sportives de la commune de Muri bei Bern, état au 17.09.2026. Seul le plan officiel de la commune fait foi.",
+    "day.Montag": "lundi", "day.Dienstag": "mardi", "day.Mittwoch": "mercredi", "day.Donnerstag": "jeudi", "day.Freitag": "vendredi", "day.Samstag": "samedi", "day.Sonntag": "dimanche",
+    "dayShort": "lu,ma,me,je,ve,sa,di",
+    "cat.Schule": "École", "cat.Private Schule": "École privée", "cat.Schule extern": "École externe", "cat.Verein/Stiftung": "Club/fondation",
+    "cat.Private Gruppe": "Groupe privé", "cat.Reinigung": "Nettoyage", "cat.nicht verfügbar": "non disponible",
+    "short.Schule": "École", "short.Verein/Stiftung": "Club", "short.Private Schule": "École privée", "short.Schule extern": "École ext.", "short.Private Gruppe": "Privé", "short.Reinigung": "Nettoyage", "short.nicht verfügbar": "fermé",
+  },
+  en: {
+    "hall.holidaysOpen": "School holidays: no school use; clubs and private groups may use the hall.", "hall.holidaysClosed": "School holidays: the hall is closed.",
+    "cal.schoolFree": "{name} ({from} – {to}): no school, school use drops out.",
+    "cal.holiday": "{name} ({from} – {to}): no school use, club slots continue.", "cal.holidayClosed": "{name} ({from} – {to}): the hall is closed.",
+    "cal.planOpen": "The occupancy plan is valid until {date}. It has not been set for the next school year yet – you can still send requests.",
+    "cal.view": "View", "cal.tag": "Day", "cal.woche": "Week", "cal.monat": "Month", "cal.today": "Today", "cal.prev": "Previous", "cal.next": "Next",
+    "cal.week": "Week", "cal.eveFree": "{h} h free from 5 pm", "cal.eveFull": "evening booked", "cal.monthHint": "Tap a day for the day view.",
+    "proto": "Prototype – not an official service of the municipality of Muri bei Bern. Data: fixed occupancy plans 2026.",
+    "brand.app": "Hall bookings",
+    "lang.label": "Language",
+    "menu": "Menu", "menu.close": "Close",
+    "nav.main": "Main navigation", "nav.path": "Breadcrumb",
+    "m.news": "News & portrait", "m.politics": "Politics & administration", "m.living": "Living & working", "m.education": "Education & social", "m.leisure": "Leisure & culture",
+    "m.aarebad": "Aare pool", "m.ferry": "Ferry", "m.culture": "Culture", "m.sport": "Sport", "m.events": "Events", "m.venues": "Event venues", "m.clubs": "Clubs",
+    "m.pool": "Melchenbühl indoor pool", "m.tennis": "Public tennis court", "m.shooting": "Shooting range", "m.halls": "Sports halls", "m.fuellerich": "Füllerich sports centre", "m.reservation": "Reservation request",
+    "tab.overview": "Overview", "tab.free": "Free slots", "tab.tips": "Tips",
+    "side.overview": "Overview", "side.free": "Find free slots", "side.tips": "Tips for clubs",
+    "loading": "Loading occupancy data …",
+    "home.title": "Sports halls",
+    "home.intro": "Weekly fixed occupancy of all sports halls and the teaching pool. Find free slots and request them directly.",
+    "home.cta": "Find free slots →",
+    "stat.occupancy": "Occupancy", "stat.occupancyAria": "Occupancy {pct} percent",
+    "stat.evening": "Free from 5 pm (Mon–Fri)", "stat.weekend": "Free at weekends", "stat.closed": "closed",
+    "hall.summary": "Occupancy {pct}% · {booked} h booked · {free} h free", "hall.closedHours": " · {h} h not available",
+    "hall.season": "Season", "season.summer": "Summer", "season.winter": "Winter",
+    "hall.clickFree": "Click a free slot to request it.", "hall.swipe": " Swipe sideways to see all days.",
+    "hall.divisible": "Divisible into {units} · bookable: {spaces}",
+    "free": "free", "free.request": "{day} {from}–{to} free – request",
+    "legend.schule": "School", "legend.privschule": "Private / external school", "legend.verein": "Club / foundation", "legend.privat": "Private group",
+    "legend.reinigung": "Cleaning", "legend.nv": "not available", "legend.free": "free",
+    "finder.title": "Find free slots", "finder.days": "Days", "finder.from": "From", "finder.min": "Minimum length", "finder.hall": "Hall", "finder.all": "All",
+    "finder.count": "{n} free time slots", "finder.none": "No free slots match these criteria.",
+    "col.day": "Day", "col.time": "Time", "col.duration": "Length", "col.hall": "Hall", "btn.request": "Request",
+    "tips.title": "Tips for clubs",
+    "tips.source": "From the {link} guidelines by Swiss Olympic and the sports federations.", "tips.link": "“Sporthallen effizient nutzen”",
+    "tip1.t": "Co-training", "tip1.d": "Two clubs or several teams share one slot – e.g. for athletics or multi-sport content. Tick “open to co-training” in your request.",
+    "tip2.t": "Shorter, more active sessions", "tip2.d": "Warm up outside the hall, have equipment ready before the start, prioritise content clearly. That way more teams fit into one evening.",
+    "tip3.t": "Use the weekends", "tip3.d": "Games and training at weekends relieve the weekday evenings. Several halls in Muri-Gümligen are hardly used at weekends.",
+    "tip4.t": "Confirm bookings every year", "tip4.d": "Give back slots you no longer need so teams on the waiting list can move up.",
+    "tip5.t": "Multi-purpose rooms", "tip5.d": "Athletics, yoga or strength training can often take place in multi-purpose rooms, freeing up the sports halls.",
+    "notfound": "Not found", "notfound.back": "Back to the overview", "nodata": "Data not available",
+    "req.title": "Request a hall slot", "req.slot": "{hall} · {day} · free {from}–{to}", "req.area": "Area", "req.from": "From", "req.to": "To",
+    "req.club": "Club / group", "req.contact": "Contact person", "req.email": "Email", "req.team": "Team / age group",
+    "team.youth": "Juniors / youth (U20)", "team.adults": "Adults", "team.seniors": "Seniors", "team.mixed": "Mixed",
+    "req.kind": "Type of booking", "kind.weekly": "Recurring (weekly)", "kind.single": "One-off",
+    "req.people": "Number of people", "req.share": "We are open to co-training / sharing the hall", "req.showName": "Show our club name in the public plan",
+    "req.note": "Comments", "req.info": "The request goes to the municipality's sports office. You will receive a reply by email.",
+    "req.cancel": "Cancel", "req.send": "Send request", "req.sending": "Sending …", "req.timeOrder": "“To” must be after “From”.",
+    "req.failed": "The request could not be sent: {msg}", "req.thanks": "Thank you! Your request for {hall}, {day} {from}–{to} has been received.",
+    "footer.h1": "Hall bookings Muri bei Bern", "footer.p1": "Prototype for transparent allocation of hall time following the recommendations of {link}.", "footer.link1": "Swiss Olympic “Sporthallen effizient nutzen”",
+    "footer.h2": "Data source", "footer.p2": "Fixed occupancy plans 2026 of the sports facilities of the municipality of Muri bei Bern, as of 17.09.2026. The official plan of the municipality is authoritative.",
+    "day.Montag": "Monday", "day.Dienstag": "Tuesday", "day.Mittwoch": "Wednesday", "day.Donnerstag": "Thursday", "day.Freitag": "Friday", "day.Samstag": "Saturday", "day.Sonntag": "Sunday",
+    "dayShort": "Mon,Tue,Wed,Thu,Fri,Sat,Sun",
+    "cat.Schule": "School", "cat.Private Schule": "Private school", "cat.Schule extern": "External school", "cat.Verein/Stiftung": "Club/foundation",
+    "cat.Private Gruppe": "Private group", "cat.Reinigung": "Cleaning", "cat.nicht verfügbar": "not available",
+    "short.Schule": "School", "short.Verein/Stiftung": "Club", "short.Private Schule": "Priv. school", "short.Schule extern": "Ext. school", "short.Private Gruppe": "Private", "short.Reinigung": "Cleaning", "short.nicht verfügbar": "closed",
+  },
+};
+
+function pickLang() {
+  try {
+    const q = new URLSearchParams(location.search).get("lang");
+    if (LANGS.includes(q)) { localStorage.setItem("lang", q); return q; }
+    const saved = localStorage.getItem("lang");
+    if (LANGS.includes(saved)) return saved;
+    const nav = (navigator.language || "de").slice(0, 2).toLowerCase();
+    return LANGS.includes(nav) ? nav : "de";
+  } catch { return "de"; }
+}
+
+export const lang = pickLang();
+export const locale = LOCALES[lang];
+
+export function t(key, vars = {}) {
+  const s = DICT[lang][key] ?? DICT.de[key] ?? key;
+  return s.replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? "");
+}
+export const dayName = d => t(`day.${d}`);
+export const dayShort = i => t("dayShort").split(",")[i];
+export const catName = c => t(`cat.${c}`);
+export const catShort = c => DICT[lang][`short.${c}`] ?? DICT.de[`short.${c}`] ?? catName(c);
+
+// Static page texts: data-i18n="key" (text), data-i18n-aria="key" (aria-label).
+export function applyStatic(root = document) {
+  document.documentElement.lang = lang;
+  root.querySelectorAll("[data-i18n]").forEach(el => { el.textContent = t(el.dataset.i18n); });
+  root.querySelectorAll("[data-i18n-aria]").forEach(el => el.setAttribute("aria-label", t(el.dataset.i18nAria)));
+}
+
+// Switch language: remember it and reload with ?lang= so links stay shareable.
+export function langSwitcher() {
+  return `<span class="langs" role="group" aria-label="${t("lang.label")}">${LANGS.map(l =>
+    `<a href="?lang=${l}${location.hash}" hreflang="${l}" lang="${l}" ${l === lang ? 'aria-current="true"' : ""}>${l.toUpperCase()}</a>`).join("")}</span>`;
+}

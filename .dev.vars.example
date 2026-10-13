@@ -1,0 +1,4 @@
+# Copy to .dev.vars (git-ignored) for `npm run dev`. Never commit real values.
+WREN_API_KEY=wren_...
+SESSION_SECRET=any-long-random-string
+ADMIN_MCP_TOKEN=another-long-random-string

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="de-CH">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Admin – Hallenbelegung Muri bei Bern</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin">
+  <p class="proto">Prototyp – Admin-Bereich der Hallenbelegung. Änderungen sind Entwürfe, bis sie veröffentlicht werden.</p>
+  <header class="top">
+    <div class="wrap">
+      <a href="/admin" class="brand">
+        <span class="logo-wrap"><img src="muri-logo.svg" alt="Muri bei Bern" class="logo" width="232" height="130"><span class="stamp" aria-label="Prototyp">Prototyp</span></span>
+        <span class="brand-app">Hallenbelegung<small>Admin</small></span>
+      </a>
+      <nav class="mainnav" id="admin-nav" aria-label="Admin" hidden>
+        <a href="#anfragen" data-tab="anfragen">Anfragen</a>
+        <a href="#entwuerfe" data-tab="entwuerfe">Entwürfe <span class="badge" id="draft-count"></span></a>
+        <a href="#belegungen" data-tab="belegungen">Belegungen</a>
+        <a href="#anlagen" data-tab="anlagen">Anlagen</a>
+        <a href="#ki" data-tab="ki">KI-Zugang</a>
+      </nav>
+      <div class="who" id="who" hidden><span id="who-email"></span> <button type="button" class="ghost small" id="logout">Abmelden</button></div>
+    </div>
+  </header>
+
+  <main class="wrap admin-main" id="admin-view" aria-live="polite">
+    <section id="login" class="login" hidden>
+      <h1>Anmelden</h1>
+      <form id="login-start">
+        <label>E-Mail <input type="email" name="email" required autocomplete="email"></label>
+        <button>Code anfordern</button>
+      </form>
+      <form id="login-verify" hidden>
+        <p class="notice" id="code-notice"></p>
+        <label>Code <input name="code" inputmode="numeric" pattern="\d{6}" maxlength="6" required autocomplete="one-time-code"></label>
+        <button>Anmelden</button>
+      </form>
+      <p class="error" id="login-error" role="alert"></p>
+    </section>
+    <section id="content" hidden></section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap"><p><a href="/">← Öffentliche Ansicht</a> · <a href="/llms.txt">llms.txt</a></p></div>
+  </footer>
+  <script src="admin.js" type="module"></script>
+</body>
+</html>

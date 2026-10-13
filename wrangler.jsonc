@@ -1,0 +1,43 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "hallenbelegung-muri",
+  "main": "./worker/index.js",
+  "account_id": "dd94b395349c1838f12fa49c85c78348",
+  "compatibility_date": "2026-10-13",
+  "routes": [{ "pattern": "muri.example-company.xyz", "custom_domain": true }],
+  "vars": {
+    "WREN_BASE": "https://wren.aemwip.com",
+    "WREN_ORG": "hallenbelegung-muri-guemligen",
+    "WREN_TREE": "site",
+    // The app is also reachable directly on the WREN tree; that copy calls this API cross-origin.
+    "ALLOWED_ORIGINS": "https://wren.aemwip.com",
+    // Who may log in to /admin (magic code).
+    "ADMIN_EMAILS": "rr@headwire.com,ruben.hallen@headwire.com",
+    // TESTING: "screen" shows the login code on screen instead of emailing it. Switch to "email" before real use.
+    "LOGIN_CODE_DELIVERY": "screen"
+  },
+  // Secrets, not in this file (wrangler secret put …): WREN_API_KEY, SESSION_SECRET, ADMIN_MCP_TOKEN
+  "observability": {
+    "enabled": true,
+    "traces": { "enabled": true }
+  },
+  "env": {
+    // Local development: `npm run dev` (= wrangler dev --env dev). Serves ./app directly from disk
+    // instead of the WREN tree, so edits show up immediately. No custom domain. Secrets come from .dev.vars.
+    "dev": {
+      "assets": {
+        "directory": "./app",
+        "binding": "ASSETS",
+        "run_worker_first": ["/api/*", "/mcp", "/mcp/*", "/admin/api/*", "/llms.txt", "/admin"]
+      },
+      "vars": {
+        "WREN_BASE": "https://wren.aemwip.com",
+        "WREN_ORG": "hallenbelegung-muri-guemligen",
+        "WREN_TREE": "site",
+        "ALLOWED_ORIGINS": "http://localhost:8787",
+        "ADMIN_EMAILS": "rr@headwire.com,ruben.hallen@headwire.com",
+        "LOGIN_CODE_DELIVERY": "screen"
+      }
+    }
+  }
+}

@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sporthallen – Hallenbelegung Muri bei Bern</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="proto"><span data-i18n="proto">Prototyp – kein offizielles Angebot der Gemeinde Muri bei Bern. Daten: Fixbelegungspläne 2026.</span><span id="lang-slot"></span></div>
+  <header class="top">
+    <div class="wrap">
+      <a href="#/" class="brand">
+        <span class="logo-wrap"><img src="muri-logo.svg" alt="Muri bei Bern" class="logo" width="232" height="130"><span class="stamp" aria-label="Prototyp">Prototyp</span></span>
+        <span class="brand-app" data-i18n="brand.app">Hallenbelegung</span>
+      </a>
+      <nav class="mainnav" data-i18n-aria="nav.main" aria-label="Hauptnavigation">
+        <a href="https://www.muri-guemligen.ch/aktuelles-portraet/aktuelles.html/18" data-i18n="m.news">Aktuelles &amp; Porträt</a>
+        <a href="https://www.muri-guemligen.ch/politik-verwaltung/politik.html/24" data-i18n="m.politics">Politik &amp; Verwaltung</a>
+        <a href="https://www.muri-guemligen.ch/wohnen-arbeiten/abfallentsorgung.html/112" data-i18n="m.living">Wohnen &amp; Arbeiten</a>
+        <a href="https://www.muri-guemligen.ch/bildung-soziales/kinderbetreuung.html/172" data-i18n="m.education">Bildung &amp; Soziales</a>
+        <a href="#/" aria-current="true" data-i18n="m.leisure">Freizeit &amp; Kultur</a>
+      </nav>
+      <button type="button" id="burger" class="burger" aria-expanded="false" aria-controls="drawer">
+        <span class="bars" aria-hidden="true"></span><span class="label" data-i18n="menu">Menü</span>
+      </button>
+    </div>
+    <nav id="drawer" class="drawer" data-i18n-aria="menu" aria-label="Menü"></nav>
+  </header>
+
+  <div class="wrap">
+    <nav class="crumbs" data-i18n-aria="nav.path" aria-label="Pfad">
+      <a href="https://www.muri-guemligen.ch/freizeit/aarebad.html/192" data-i18n="m.leisure">Freizeit &amp; Kultur</a> ›
+      <a href="https://www.muri-guemligen.ch/freizeit/sport.html/199" data-i18n="m.sport">Sport</a> ›
+      <a href="#/" data-i18n="m.halls">Sporthallen</a>
+    </nav>
+    <nav class="apptabs" data-i18n-aria="m.halls" aria-label="Sporthallen">
+      <a href="#/" data-nav="home" data-i18n="tab.overview">Übersicht</a>
+      <a href="#/frei" data-nav="frei" data-i18n="tab.free">Freie Zeiten</a>
+      <a href="#/tipps" data-nav="tipps" data-i18n="tab.tips">Tipps</a>
+    </nav>
+  </div>
+
+  <div class="wrap layout">
+    <aside class="sidenav" data-i18n-aria="m.leisure" aria-label="Freizeit &amp; Kultur">
+      <h2 class="sidenav-title" data-i18n="m.leisure">Freizeit &amp; Kultur</h2>
+      <div id="sidenav-tree"></div>
+    </aside>
+    <main id="view" aria-live="polite">
+      <p class="muted" data-i18n="loading">Lade Belegungsdaten …</p>
+    </main>
+  </div>
+
+  <dialog id="request">
+    <form method="dialog" id="request-form">
+      <h2 data-i18n="req.title">Hallenzeit anfragen</h2>
+      <p class="slot-summary" id="req-slot"></p>
+      <label><span data-i18n="req.area">Bereich</span> <select name="space"></select></label>
+      <div class="times">
+        <label><span data-i18n="req.from">Von</span> <input type="time" name="from" step="1800" required></label>
+        <label><span data-i18n="req.to">Bis</span> <input type="time" name="to" step="1800" required></label>
+      </div>
+      <label><span data-i18n="req.club">Verein / Gruppe</span> <input name="club" required autocomplete="organization"></label>
+      <label><span data-i18n="req.contact">Kontaktperson</span> <input name="contact" required autocomplete="name"></label>
+      <label><span data-i18n="req.email">E-Mail</span> <input name="email" type="email" required autocomplete="email"></label>
+      <label><span data-i18n="req.team">Team / Altersgruppe</span>
+        <!-- Values stay German (stored data); only the visible text is translated. -->
+        <select name="team">
+          <option value="Junioren / Jugend (U20)" data-i18n="team.youth">Junioren / Jugend (U20)</option>
+          <option value="Erwachsene" data-i18n="team.adults">Erwachsene</option>
+          <option value="Senioren" data-i18n="team.seniors">Senioren</option>
+          <option value="Gemischt" data-i18n="team.mixed">Gemischt</option>
+        </select>
+      </label>
+      <label><span data-i18n="req.kind">Art der Belegung</span>
+        <select name="kind">
+          <option value="Dauerbelegung (wöchentlich)" data-i18n="kind.weekly">Dauerbelegung (wöchentlich)</option>
+          <option value="Einzelbelegung" data-i18n="kind.single">Einzelbelegung</option>
+        </select>
+      </label>
+      <label><span data-i18n="req.people">Anzahl Personen</span> <input name="people" type="number" min="1" value="12"></label>
+      <label class="check"><input type="checkbox" name="share" checked> <span data-i18n="req.share">Wir sind offen für Co-Training / Hallenteilung</span></label>
+      <label class="check"><input type="checkbox" name="show_name" checked> <span data-i18n="req.showName">Unseren Vereinsnamen im öffentlichen Belegungsplan anzeigen</span></label>
+      <label><span data-i18n="req.note">Bemerkungen</span> <textarea name="note" rows="3"></textarea></label>
+      <label class="hp" aria-hidden="true">Website <input name="website" tabindex="-1" autocomplete="off"></label>
+      <p class="muted small" data-i18n="req.info">Die Anfrage geht an die Abteilung Sport der Gemeinde. Sie erhalten eine Antwort per E-Mail.</p>
+      <p class="error small" id="req-status" role="alert"></p>
+      <div class="actions">
+        <button value="cancel" formnovalidate class="ghost" data-i18n="req.cancel">Abbrechen</button>
+        <button value="send" id="req-send" data-i18n="req.send">Anfrage senden</button>
+      </div>
+    </form>
+  </dialog>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div>
+        <h2 data-i18n="footer.h1">Hallenbelegung Muri bei Bern</h2>
+        <p id="footer-p1">Prototyp für eine transparente Vergabe von Hallenzeiten nach den Empfehlungen von
+          <a href="https://www.swissolympic.ch/verbaende/foerderung-unterstuetzung/F-rderung-Breitensport/Sporthallen-effizient-nutzen" target="_blank" rel="noopener">Swiss Olympic «Sporthallen effizient nutzen»</a>.</p>
+      </div>
+      <div>
+        <h2 data-i18n="footer.h2">Datengrundlage</h2>
+        <p data-i18n="footer.p2">Fixbelegungspläne Sportanlagen 2026 der Gemeinde Muri bei Bern, Stand 17.09.2026. Massgebend ist der offizielle Belegungsplan der Gemeinde.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="app.js" type="module"></script>
+</body>
+</html>
