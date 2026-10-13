@@ -160,7 +160,7 @@ function renderFinder(params) {
       <tbody>${results.map(r => `<tr>
         <td data-label="Tag">${dayName(r.day)}</td><td data-label="Zeit">${toTime(r.start)}–${toTime(r.end)}</td><td data-label="Dauer">${hours(r.end - r.start)} h</td>
         <td data-label="Halle"><a href="#/halle/${r.hall.key}?ansicht=tag&datum=${P.isoDate(P.nextDateFor(r.day, season))}">${esc(r.hall.name)}</a>${r.whole ? "" : ` · ${esc(r.space.name)}`} <span class="muted small">${esc(r.hall.size || "")}</span></td>
-        <td class="act"><button class="small" data-req="${esc(JSON.stringify({ hallKey: r.hall.key, day: r.day, from: toTime(r.start), to: toTime(r.end), units: r.space.units }))}">${t("btn.request")}</button></td>
+        <td class="act"><button class="small" data-req="${esc(JSON.stringify({ hallKey: r.hall.key, day: r.day, from: toTime(r.start), to: toTime(r.end), units: r.space.units, min: minLen }))}">${t("btn.request")}</button></td>
       </tr>`).join("") || `<tr><td colspan="5" class="muted">${t("finder.none")}</td></tr>`}</tbody>
     </table>`;
 
@@ -198,23 +198,37 @@ document.addEventListener("click", e => {
   const spaceSel = form.elements.space;
   spaceSel.innerHTML = spaces.map(s => `<option value="${esc(s.key)}">${esc(s.name)}</option>`).join("");
   spaceSel.closest("label").hidden = P.hallSpaces(hall).length < 2;
-  // Default to a 90-minute training inside the free window; the club adjusts it.
-  const from = form.elements.from, to = form.elements.to;
-  for (const el of [from, to]) { el.min = pending.from; el.max = pending.to; }
+  // Start anywhere in the free window, leaving room for at least one half hour.
+  const from = form.elements.from;
+  from.min = pending.from;
+  from.max = toTime(toMin(pending.to) - P.STEP);
   from.value = pending.from;
-  to.value = toTime(Math.min(toMin(pending.from) + 90, toMin(pending.to)));
+  // Default length: the search's minimum, or a 90-minute training from the calendar.
+  durationOptions(pending.min || 90);
   status.textContent = "";
   dialog.showModal();
 });
 const form = document.getElementById("request-form");
 const status = document.getElementById("req-status");
+// Durations in half-hour steps that fit between the chosen start and the end of the free window.
+function durationOptions(preferred) {
+  const sel = form.elements.duration;
+  const start = /^\d\d:\d\d$/.test(form.elements.from.value) ? toMin(form.elements.from.value) : NaN;
+  const max = toMin(pending.to) - start;
+  const opts = [];
+  for (let m = P.STEP; m <= max; m += P.STEP) opts.push(m);
+  const pick = opts.includes(preferred) ? preferred : opts.filter(m => m <= preferred).pop() || opts[0];
+  sel.innerHTML = opts.map(m => `<option value="${m}" ${m === pick ? "selected" : ""}>${hours(m)} h (${toTime(start)}–${toTime(start + m)})</option>`).join("");
+}
+form.elements.from.addEventListener("change", () => durationOptions(Number(form.elements.duration.value) || pending.min || 90));
 form.addEventListener("submit", async e => {
   if (e.submitter?.value !== "send") return;  // "Abbrechen" closes the dialog normally
   e.preventDefault();
   const f = new FormData(form);
-  if (toMin(f.get("from")) >= toMin(f.get("to"))) { status.textContent = t("req.timeOrder"); return; }
+  const minutes = Number(f.get("duration"));
+  if (!minutes) { status.textContent = t("req.noTime"); return; }
   const payload = {
-    hall: pending.hall, space: f.get("space") || undefined, day: pending.day, date: pending.date, from: f.get("from"), to: f.get("to"),
+    hall: pending.hall, space: f.get("space") || undefined, day: pending.day, date: pending.date, from: f.get("from"), to: toTime(toMin(f.get("from")) + minutes),
     club: f.get("club"), contact: f.get("contact"), email: f.get("email"),
     team: f.get("team"), kind: f.get("kind"), people: Number(f.get("people")) || null,
     share: f.get("share") === "on", show_name: f.get("show_name") === "on", note: f.get("note"), website: f.get("website"),
