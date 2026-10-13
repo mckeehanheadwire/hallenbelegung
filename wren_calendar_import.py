@@ -4,7 +4,6 @@ import json, urllib.request, urllib.error
 from pathlib import Path
 
 BASE = "https://wren.aemwip.com/api/v1"
-KEY = (Path(__file__).parent / ".wren-key").read_text().strip()
 SOURCE = "Ferienordnung 2026-27, Gemeinde Muri bei Bern (Stand 14.07.2026)"
 LAST_SCHOOL_DAY = "2027-07-02"  # Friday before the summer holidays 2027
 
@@ -26,7 +25,7 @@ ENTRIES = [
 def call(method, path, body=None):
     req = urllib.request.Request(BASE + path, method=method,
         data=None if body is None else json.dumps(body).encode(),
-        headers={"Authorization": f"Bearer {KEY}", "Content-Type": "application/json", "User-Agent": "hallenbelegung-import/1.0"})
+        headers={"Authorization": f"Bearer {(Path(__file__).parent / '.wren-key').read_text().strip()}", "Content-Type": "application/json", "User-Agent": "hallenbelegung-import/1.0"})
     try:
         with urllib.request.urlopen(req) as r:
             return r.status, json.loads(r.read() or b"null")
@@ -44,26 +43,31 @@ def list_all(coll):
             return items
 
 
-call("PATCH", "/calendar/_schema", {"naturalKey": "key", "displayName": "{name} {from}"})
-created = 0
-for key, kind, name, frm, to in ENTRIES:
-    doc = {"key": key, "kind": kind, "name": name, "from": frm, "to": to, "effect": "school", "source": SOURCE}
-    status, saved = call("PUT", f"/calendar/by-key/{key}", doc)
-    assert status in (200, 201), (status, saved)
-    if status == 201:
-        created += 1
-    call("PUT", f"/tree/plan/calendar/{key}", {"documentId": saved["id"]})
+def main():
+    call("PATCH", "/calendar/_schema", {"naturalKey": "key", "displayName": "{name} {from}"})
+    created = 0
+    for key, kind, name, frm, to in ENTRIES:
+        doc = {"key": key, "kind": kind, "name": name, "from": frm, "to": to, "effect": "school", "source": SOURCE}
+        status, saved = call("PUT", f"/calendar/by-key/{key}", doc)
+        assert status in (200, 201), (status, saved)
+        if status == 201:
+            created += 1
+        call("PUT", f"/tree/plan/calendar/{key}", {"documentId": saved["id"]})
 
-changed = 0
-for item in list_all("bookings"):
-    d = item["data"]
-    if d.get("validUntil"):
-        continue
-    status, _ = call("PUT", f"/bookings/{item['id']}", {**d, "validUntil": LAST_SCHOOL_DAY})
-    assert status == 200, status
-    changed += 1
+    changed = 0
+    for item in list_all("bookings"):
+        d = item["data"]
+        if d.get("validUntil"):
+            continue
+        status, _ = call("PUT", f"/bookings/{item['id']}", {**d, "validUntil": LAST_SCHOOL_DAY})
+        assert status == 200, status
+        changed += 1
 
-print(f"calendar: {len(ENTRIES)} entries ({created} new); bookings limited to {LAST_SCHOOL_DAY}: {changed}")
+    print(f"calendar: {len(ENTRIES)} entries ({created} new); bookings limited to {LAST_SCHOOL_DAY}: {changed}")
+
+
+if __name__ == "__main__":
+    main()
 
 
 # Publish only what this import touched: the calendar entries and bookings that were already

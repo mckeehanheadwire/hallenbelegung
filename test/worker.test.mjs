@@ -348,3 +348,19 @@ test("hall lookup prefers exact keys; ambiguous partial names are refused", asyn
   assert.match(amb.content[0].text, /nicht eindeutig/);
   assert.equal((await call("get_week_plan", { hall: "moos" })).structuredContent.hallKey, "moos");
 });
+
+test("WREN_PREFIX puts every collection and tree name of the Worker into its own namespace", async () => {
+  const { prefixed } = await import("../worker/wren.js");
+  assert.equal(prefixed("/bookings/by-key/x", "anna-"), "/anna-bookings/by-key/x");
+  assert.equal(prefixed("/tree/plan/bookings/x", "anna-"), "/tree/anna-plan/bookings/x");
+  assert.equal(prefixed("/tree/plan/_promote", ""), "/tree/plan/_promote");
+  calls = [];
+  const env2 = { ...env, WREN_PREFIX: "anna-" };
+  await worker.fetch(new Request(ORIGIN + "/api/requests", { method: "POST", headers: { "Content-Type": "application/json", Origin: ORIGIN }, body: JSON.stringify(valid) }), env2, ctx);
+  await worker.fetch(new Request(ORIGIN + "/api/halls"), env2, ctx);
+  assert.ok(calls.some(c => c.m === "POST" && c.path === "/api/v1/anna-requests"), JSON.stringify(calls));
+  assert.ok(calls.some(c => c.path.startsWith("/api/v1/orgs/org/anna-halls")));
+  assert.ok(!calls.some(c => /\/api\/v1\/(orgs\/org\/)?(requests|halls|bookings)\b/.test(c.path)), "no unprefixed access");
+  const bad = await worker.fetch(new Request(ORIGIN + "/api/halls"), { ...env, WREN_PREFIX: "Bad Prefix" }, ctx);
+  assert.equal(bad.status, 500);
+});

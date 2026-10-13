@@ -11,7 +11,8 @@ let halls = [], bookings = [], calendar = [];
 function hours(min) { return (min / 60).toLocaleString(locale, { maximumFractionDigits: 1 }); }
 
 async function api(path) {
-  const r = await fetch(CFG.dataBase + path);
+  // Optional collection prefix (test environments sharing one WREN account).
+  const r = await fetch(`${CFG.dataBase}/${CFG.prefix || ""}${path.slice(1)}`);
   if (!r.ok) throw new Error(`${r.status} ${path}`);
   return r.json();
 }

@@ -1,4 +1,8 @@
-# Copy to .dev.vars (git-ignored) for `npm run dev`. Never commit real values.
+# Copy to .dev.vars (git-ignored) for `npm run dev`. Use your own WREN *test* account, not production.
+WREN_ORG=your-test-org-slug
+# Optional: several environments in one WREN account, e.g. WREN_PREFIX=anna-  (then run scripts/setup_wren_dev.py per prefix)
+WREN_PREFIX=
 WREN_API_KEY=wren_...
 SESSION_SECRET=any-long-random-string
 ADMIN_MCP_TOKEN=another-long-random-string
+ADMIN_EMAILS=you@example.com

@@ -27,26 +27,42 @@ Browser ──► Cloudflare Worker (worker/)  ──►  WREN (wren.aemwip.com,
 
 ## Run it locally
 
-Prerequisites: Node.js 20+ and npm. (Python 3 only for the data import scripts.)
+Prerequisites: Node.js 20+, npm, Python 3 (for the WREN setup script) and **your own WREN test
+account** – local development never uses the production data.
 
-```bash
-npm install                      # installs Wrangler (the only dependency, dev-only)
-cp .dev.vars.example .dev.vars   # then fill in the values (see below)
-npm run dev                      # http://localhost:8787  – admin: http://localhost:8787/admin
-```
+1. **Create a WREN test account** at <https://wren.aemwip.com/admin>, then create an API key there.
+2. **Configure** – copy the example and fill it in:
 
-`.dev.vars` needs:
+   ```bash
+   npm install                      # installs Wrangler (the only dependency, dev-only)
+   cp .dev.vars.example .dev.vars
+   ```
 
-| Variable | What |
-|---|---|
-| `WREN_API_KEY` | WREN API key (Admin UI → API keys). **Dev talks to the same WREN org as production** – use a separate WREN org/key if you want to experiment with data. |
-| `SESSION_SECRET` | any long random string (signs admin sessions) |
-| `ADMIN_MCP_TOKEN` | any long random string (Bearer token for `/mcp/admin`) |
+   | Variable | What |
+   |---|---|
+   | `WREN_API_KEY` | API key of your WREN **test** account |
+   | `WREN_ORG` | org slug of that account (`GET https://wren.aemwip.com/api/v1/me`, or printed by the setup script) |
+   | `WREN_PREFIX` | optional, e.g. `anna-`: prefixes all collections and trees, so one WREN account can hold several test environments |
+   | `ADMIN_EMAILS` | email(s) allowed to log in to `/admin` locally (code is shown on screen) |
+   | `SESSION_SECRET`, `ADMIN_MCP_TOKEN` | any long random strings |
 
-`npm run dev` runs `wrangler dev --env dev`: the Worker runs locally and serves `./app` straight from
-disk, so edits to HTML/CSS/JS show up on reload. Public data is read from WREN's public API (see
-`app/config.js`); admin logins accept the emails in `wrangler.jsonc` (`ADMIN_EMAILS`) and show the
-code on screen (`LOGIN_CODE_DELIVERY=screen`, testing only).
+3. **Load test data** into your org (collections, public read rules, halls incl. the three-part Moos,
+   the bookings from `belegung_bloecke.csv`, school holidays – all published):
+
+   ```bash
+   python scripts/setup_wren_dev.py     # refuses to run against the production org
+   ```
+
+   Run it again with another `WREN_PREFIX` for an additional environment.
+4. **Start**:
+
+   ```bash
+   npm run dev                      # http://localhost:8787  – admin: http://localhost:8787/admin
+   ```
+
+`npm run dev` runs `wrangler dev --env dev`: the Worker runs locally, serves `./app` straight from
+disk (edits show up on reload) and generates `config.js` from `WREN_ORG`/`WREN_PREFIX`, so the browser
+reads the public data of your test environment.
 
 Try the MCP server locally:
 
@@ -72,7 +88,7 @@ npm run publish:site   # upload ./app to the WREN tree "site" (hash-stamped URLs
 npm run deploy:api     # deploy the Worker to Cloudflare (muri.example-company.xyz)
 ```
 
-Needs `.wren-key` (WREN API key, one line) for the site upload and a Wrangler login
+Production only. Needs `.wren-key` (the *production* WREN API key, one line) for the site upload and a Wrangler login
 (`npx wrangler login`) for the Worker. Production secrets live in Cloudflare:
 
 ```bash
@@ -86,7 +102,8 @@ npx wrangler secret put ADMIN_MCP_TOKEN
 | Script | Purpose |
 |---|---|
 | `scripts/pdf_extract.py` + `scripts/pdf_build_blocks.py` | Read the Gemeinde's colour-coded Fixbelegungsplan PDF into `belegung_bloecke.csv` (needs `pip install pymupdf`) |
-| `wren_import.py` | Load `belegung_bloecke.csv` into WREN (`halls`, `bookings`) |
+| `scripts/setup_wren_dev.py` | Bootstrap a WREN **test** org/prefix with all data (local development) |
+| `wren_import.py` | Load `belegung_bloecke.csv` into WREN (`halls`, `bookings`) – production |
 | `wren_calendar_import.py [--publish]` | School holidays (Ferienordnung) into `calendar`; limits bookings to the school year |
 
 All scripts are idempotent (natural keys + by-key upserts) and read the key from `.wren-key`.
