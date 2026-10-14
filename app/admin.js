@@ -44,12 +44,18 @@ $("#login-start").addEventListener("submit", e => {
     challenge = r.challenge;
     $("#login-verify").hidden = false;
     const code = $("#login-verify [name=code]");
-    if (r.delivery === "screen") {
-      $("#code-notice").innerHTML = `Testmodus: Ihr Code lautet <strong class="code">${esc(r.code)}</strong> (wird nicht per E-Mail versendet).`;
-      code.value = r.code;
-    } else {
-      $("#code-notice").textContent = "Wir haben Ihnen einen Code per E-Mail gesendet.";
-    }
+    $("#login-start").hidden = true;
+    $("#code-notice").innerHTML = r.delivery === "screen" ? `
+      <div class="notice">
+        <p>In der fertigen Version erhalten Sie jetzt eine E-Mail mit einem Anmeldecode an <strong>${esc(r.email)}</strong>.</p>
+      </div>
+      <div class="notice warn">
+        <p><strong>Prototyp – keine Produktivversion.</strong> Diese Testversion verschickt keine E-Mails, und das Backend
+        ist noch nicht gehärtet. Ihr Code (10 Minuten gültig):</p>
+        <p class="code">${esc(r.code)}</p>
+      </div>`
+      : `<p class="notice">Wir haben einen Anmeldecode an <strong>${esc(r.email)}</strong> gesendet. Er ist 10 Minuten gültig.</p>`;
+    if (r.delivery === "screen") code.value = r.code;
     code.focus();
   });
 });
@@ -57,7 +63,7 @@ $("#login-verify").addEventListener("submit", e => {
   e.preventDefault();
   run(async () => {
     await api("/login/verify", { challenge, code: new FormData(e.target).get("code") }).catch(err => { $("#login-error").textContent = err.message; throw err; });
-    $("#login-verify").hidden = true; $("#login-verify").reset();
+    $("#login-verify").hidden = true; $("#login-verify").reset(); $("#login-start").hidden = false;
     await start();
   });
 });

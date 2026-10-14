@@ -6,3 +6,5 @@ WREN_API_KEY=wren_...
 SESSION_SECRET=any-long-random-string
 ADMIN_MCP_TOKEN=another-long-random-string
 ADMIN_EMAILS=you@example.com
+# Optional: allow whole email domains, e.g. ADMIN_DOMAINS=example.com
+ADMIN_DOMAINS=

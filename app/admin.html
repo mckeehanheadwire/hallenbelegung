@@ -30,11 +30,12 @@
     <section id="login" class="login" hidden>
       <h1>Anmelden</h1>
       <form id="login-start">
+        <p class="muted small">Zugang für E-Mail-Adressen von headwire.com und muri-guemligen.ch.</p>
         <label>E-Mail <input type="email" name="email" required autocomplete="email"></label>
         <button>Code anfordern</button>
       </form>
       <form id="login-verify" hidden>
-        <p class="notice" id="code-notice"></p>
+        <div id="code-notice"></div>
         <label>Code <input name="code" inputmode="numeric" pattern="\d{6}" maxlength="6" required autocomplete="one-time-code"></label>
         <button>Anmelden</button>
       </form>

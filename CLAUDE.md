@@ -56,5 +56,7 @@ Prototype for municipalities (pilot: Muri bei Bern) to implement the Swiss Olymp
 - Local development uses your **own WREN test account** (optionally with `WREN_PREFIX`), never the
   production org `hallenbelegung-muri-guemligen`.
 - The login code is shown on screen (`LOGIN_CODE_DELIVERY=screen`) **for testing only**; switch to email
-  before real use.
+  before real use. Until then, admin login is open to whole domains (`ADMIN_DOMAINS`: headwire.com,
+  muri-guemligen.ch), so anyone who types such an address gets in – the login screen says so (prototype,
+  backend not hardened). Keep the domain list short.
 - Run `npm test` before committing; keep the tests passing.

@@ -11,6 +11,7 @@ const env = {
   WREN_API_KEY: "wren-key",
   ALLOWED_ORIGINS: "https://wren.test",
   ADMIN_EMAILS: "admin@example.com",
+  ADMIN_DOMAINS: "gemeinde.test",
   LOGIN_CODE_DELIVERY: "screen",
   SESSION_SECRET: "test-session-secret",
   ADMIN_MCP_TOKEN: "test-mcp-token",
@@ -224,6 +225,16 @@ test("magic-code login: allow-list, on-screen code, session cookie, origin check
   assert.equal((await postJson("/admin/api/tools/list_requests", {}, { Cookie: cookie, Origin: "https://evil.example" })).status, 403);
   const forged = cookie.replace(/\.[^.]+$/, ".AAAA");
   assert.equal((await req("/admin/api/me", { headers: { Cookie: forged } })).status, 401);
+});
+
+test("login allowed for whole email domains, but not for look-alikes", async () => {
+  const start = email => postJson("/admin/api/login/start", { email });
+  const ok = await (await start(" Laura@Gemeinde.TEST ")).json();
+  assert.equal(ok.email, "laura@gemeinde.test");
+  for (const bad of ["x@sub.gemeinde.test", "x@gemeinde.test.evil.com", "x@evilgemeinde.test", "gemeinde.test", "a b@gemeinde.test"])
+    assert.equal((await start(bad)).status, 403, bad);
+  const v = await postJson("/admin/api/login/verify", { challenge: ok.challenge, code: ok.code });
+  assert.equal(v.status, 200);
 });
 
 test("admin page: create, cancel and publish", async () => {

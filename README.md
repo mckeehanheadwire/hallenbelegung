@@ -49,6 +49,7 @@ Node 22 once into `.node/` (git-ignored, checksum-verified) and uses it – no g
    | `WREN_ORG` | org slug of that account (`GET https://wren.aemwip.com/api/v1/me`, or printed by the setup script) |
    | `WREN_PREFIX` | optional, e.g. `anna-`: prefixes all collections and trees, so one WREN account can hold several test environments |
    | `ADMIN_EMAILS` | email(s) allowed to log in to `/admin` locally (code is shown on screen) |
+   | `ADMIN_DOMAINS` | optional: whole email domains allowed to log in, e.g. `example.com` (production: `headwire.com,muri-guemligen.ch`) |
    | `SESSION_SECRET`, `ADMIN_MCP_TOKEN` | any long random strings |
 
 3. **Load test data** into your org (collections, public read rules, halls incl. the three-part Moos,
