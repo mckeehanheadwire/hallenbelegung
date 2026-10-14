@@ -188,7 +188,7 @@ function clubCard(c, matches) {
     c.contactEmail && `<a href="mailto:${esc(c.contactEmail)}">${esc(c.contactEmail)}</a>`,
     c.gemeindeUrl && extLink(c.gemeindeUrl, t("clubs.gemeinde")),
   ].filter(Boolean);
-  const hosts = [...new Set((c.sources || []).map(u => { try { return new URL(u).hostname.replace(/^www\./, ""); } catch { return ""; } }).filter(Boolean))];
+  const hosts = [...new Set((c.sources || []).map(u => { try { return new URL(u).hostname.replace(/^www\./, ""); } catch { return u; } }).filter(Boolean))];
   return `<article class="club" id="club-${esc(c.key)}">
     <h2>${esc(c.name)}</h2>
     ${c.sport ? `<p class="sport">${esc(c.sport)}</p>` : ""}

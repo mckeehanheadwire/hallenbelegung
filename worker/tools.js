@@ -635,7 +635,7 @@ const listHolidays = {
 const listClubs = {
   name: "list_clubs",
   title: "Vereine: wer trainiert wo",
-  description: "Lists the sports clubs of Muri bei Bern with their training times and places and how to contact them (website, contact page, club email). The times come from the clubs' own websites (see sources, checkedAt) and may be outdated or differ from the official occupancy plan, which is authoritative. Filter by hall, weekday or sport.",
+  description: "Lists the sports clubs of Muri bei Bern with their training times and places and how to contact them (website, contact page, club email). The times come from the clubs' own websites, the local paper's agenda and the clubs themselves (see sources, checkedAt) and may be outdated or differ from the official occupancy plan, which is authoritative. Filter by hall, weekday or sport.",
   inputSchema: {
     type: "object",
     properties: {
@@ -658,7 +658,7 @@ const listClubs = {
     if (args?.sport) clubs = clubs.filter(c => String(c.sport || "").toLowerCase().includes(String(args.sport).toLowerCase()));
     if (hallKey || args?.day) clubs = clubs.filter(c => (c.sessions || []).some(hit)).map(c => ({ ...c, sessions: c.sessions.filter(hit) }));
     clubs = clubs.map(({ changedBy, changedAt, ...c }) => c).sort((a, b) => a.name.localeCompare(b.name, "de"));
-    return { total: clubs.length, note: "Angaben von den Websites der Vereine, ohne Gewähr; massgebend ist der Belegungsplan der Gemeinde.", clubs };
+    return { total: clubs.length, note: "Angaben von den Websites der Vereine, aus der Agenda der Lokal-Nachrichten und von den Vereinen selbst, ohne Gewähr; massgebend ist der Belegungsplan der Gemeinde.", clubs };
   },
 };
 
