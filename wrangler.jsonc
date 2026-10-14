@@ -11,8 +11,9 @@
     "WREN_TREE": "site",
     // The app is also reachable directly on the WREN tree; that copy calls this API cross-origin.
     "ALLOWED_ORIGINS": "https://wren.aemwip.com",
-    // Who may log in to /admin (magic code).
-    "ADMIN_EMAILS": "rr@headwire.com,ruben.hallen@headwire.com",
+    // Who may log in to /admin (magic code): single addresses and/or whole email domains.
+    "ADMIN_EMAILS": "",
+    "ADMIN_DOMAINS": "headwire.com,muri-guemligen.ch",
     // TESTING: "screen" shows the login code on screen instead of emailing it. Switch to "email" before real use.
     "LOGIN_CODE_DELIVERY": "screen"
   },

@@ -27,8 +27,13 @@ Browser ──► Cloudflare Worker (worker/)  ──►  WREN (wren.aemwip.com,
 
 ## Run it locally
 
-Prerequisites: Node.js 20+, npm, Python 3 (for the WREN setup script) and **your own WREN test
+Prerequisites: Node.js with npm and **your own WREN test
 account** – local development never uses the production data.
+
+The project needs **Node.js 22 or newer** (Wrangler 4 requires it). If yours is older, nothing to do:
+all `npm run …`/`npm test` commands go through `scripts/node.mjs`, which then downloads the official
+Node 22 once into `.node/` (git-ignored, checksum-verified) and uses it – no global install. With nvm,
+`nvm use` picks the version from `.nvmrc` instead.
 
 1. **Create a WREN test account** at <https://wren.aemwip.com/admin>, then create an API key there.
 2. **Configure** – copy the example and fill it in:
@@ -44,13 +49,14 @@ account** – local development never uses the production data.
    | `WREN_ORG` | org slug of that account (`GET https://wren.aemwip.com/api/v1/me`, or printed by the setup script) |
    | `WREN_PREFIX` | optional, e.g. `anna-`: prefixes all collections and trees, so one WREN account can hold several test environments |
    | `ADMIN_EMAILS` | email(s) allowed to log in to `/admin` locally (code is shown on screen) |
+   | `ADMIN_DOMAINS` | optional: whole email domains allowed to log in, e.g. `example.com` (production: `headwire.com,muri-guemligen.ch`) |
    | `SESSION_SECRET`, `ADMIN_MCP_TOKEN` | any long random strings |
 
 3. **Load test data** into your org (collections, public read rules, halls incl. the three-part Moos,
    the bookings from `belegung_bloecke.csv`, school holidays – all published):
 
    ```bash
-   python scripts/setup_wren_dev.py     # refuses to run against the production org
+   npm run setup:wren               # refuses to run against the production org
    ```
 
    Run it again with another `WREN_PREFIX` for an additional environment.
@@ -78,7 +84,7 @@ claude mcp add --transport http hallen-local http://localhost:8787/mcp   # Claud
 npm test
 ```
 
-Runs `node --test` on `test/`: the plan logic and the Worker (called in-process against an in-memory
+Runs `node --test` (all `*.test.mjs` files in `test/`; Node 22+): the plan logic and the Worker (called in-process against an in-memory
 fake of the WREN API – no network, no Wrangler needed).
 
 ## Deploy
@@ -97,16 +103,21 @@ npx wrangler secret put SESSION_SECRET
 npx wrangler secret put ADMIN_MCP_TOKEN
 ```
 
-## Data import scripts
+## Data
 
-| Script | Purpose |
-|---|---|
-| `scripts/pdf_extract.py` + `scripts/pdf_build_blocks.py` | Read the Gemeinde's colour-coded Fixbelegungsplan PDF into `belegung_bloecke.csv` (needs `pip install pymupdf`) |
-| `scripts/setup_wren_dev.py` | Bootstrap a WREN **test** org/prefix with all data (local development) |
-| `wren_import.py` | Load `belegung_bloecke.csv` into WREN (`halls`, `bookings`) – production |
-| `wren_calendar_import.py [--publish]` | School holidays (Ferienordnung) into `calendar`; limits bookings to the school year |
+`belegung_bloecke.csv` holds the bookings read once from the Gemeinde's Fixbelegungsplan PDF
+(`2026_Fixbelegungsplaene_Sportanlagen.pdf`, Stand 17.09.2026); `belegung_halbstunden.csv` is the same
+plan in half-hour cells. The school holidays (Ferienordnung 2026-27) are in `scripts/setup-wren-dev.mjs`.
+Production data is maintained in the admin page or via the admin MCP server, not by scripts.
 
-All scripts are idempotent (natural keys + by-key upserts) and read the key from `.wren-key`.
+`clubs.json` lists the sports clubs – who trains where and when, and how to contact them (club-level
+contacts only) – read from the clubs' own websites (sources and date per club). It feeds the page
+`#/vereine`, the section «Vereine in dieser Halle» and the MCP tool `list_clubs`. To load changes:
+
+```bash
+node scripts/node.mjs scripts/import-clubs.mjs         # production, as drafts – publish in /admin → Entwürfe
+node scripts/node.mjs scripts/import-clubs.mjs --dev   # your test org (also part of npm run setup:wren)
+```
 
 ## Files that must never be committed
 

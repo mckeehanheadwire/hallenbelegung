@@ -83,7 +83,7 @@ async function adminApi(request, env, url) {
   if (p === "/login/start" && m === "POST") {
     const body = await readJson(request);
     const r = await startLogin(body.email, env);
-    if (!r.ok) return json({ error: "Diese E-Mail-Adresse ist nicht als Admin freigeschaltet." }, 403);
+    if (!r.ok) return json({ error: "Diese E-Mail-Adresse ist nicht für den Admin-Bereich freigeschaltet." }, 403);
     console.log(JSON.stringify({ msg: "login code issued", delivery: r.delivery }));
     return json(r);
   }

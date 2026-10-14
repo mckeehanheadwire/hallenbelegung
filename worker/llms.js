@@ -39,6 +39,7 @@ ${list(ADMIN_TOOLS)}
 ## Human pages
 
 - ${origin}/ — public weekly plans and free-slot finder
+- ${origin}/#/vereine — clubs: who trains where, and how to contact them
 - ${origin}/admin — admin area (login required)
 `;
 }

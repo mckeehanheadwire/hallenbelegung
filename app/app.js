@@ -6,7 +6,7 @@ const { DAYS, toMin, toTime, currentSeason } = P;
 const CFG = window.HALLEN_CONFIG;
 const view = document.getElementById("view");
 const view_ = view;
-let halls = [], bookings = [], calendar = [];
+let halls = [], bookings = [], calendar = [], clubs = [];
 
 function hours(min) { return (min / 60).toLocaleString(locale, { maximumFractionDigits: 1 }); }
 
@@ -18,10 +18,12 @@ async function api(path) {
 }
 
 async function load() {
-  const [h, b, c] = await Promise.all([api("/halls?limit=200"), api("/bookings?limit=200"), api("/calendar?limit=200").catch(() => ({ items: [] }))]);
+  const [h, b, c, v] = await Promise.all([api("/halls?limit=200"), api("/bookings?limit=200"),
+    api("/calendar?limit=200").catch(() => ({ items: [] })), api("/clubs?limit=200").catch(() => ({ items: [] }))]);
   halls = h.items.map(i => i.data).sort(P.byOrder);
   bookings = P.prepare(b.items.map(i => i.data), halls);
   calendar = c.items.map(i => i.data);
+  clubs = v.items.map(i => i.data).sort((a, x) => a.name.localeCompare(x.name, "de"));
 }
 
 // The plan logic lives in plan.js (shared with the Worker); these bind it to the loaded data.
@@ -108,9 +110,102 @@ function renderHall(key, params) {
     ${calendarToolbar(view, date, href)}
     ${planNotices(view, date, validUntil, h)}
     ${body}
-    ${view === "monat" ? "" : legend()}`;
+    ${view === "monat" ? "" : legend()}
+    ${hallClubs(h)}`;
   stickyOffsets();
 }
+
+/* ---------- clubs: who trains where, and how to reach them ---------- */
+
+// Club data comes from the clubs' own websites (sources and date in each entry), not from the
+// Gemeinde's plan – both are shown side by side, the official plan stays authoritative.
+const byDayTime = (a, b) => DAYS.indexOf(a.day) - DAYS.indexOf(b.day) || String(a.from).localeCompare(String(b.from));
+const sessionTime = x => `${dayName(x.day)} ${esc(x.from || "")}${x.to ? "–" + esc(x.to) : ""}`;
+const fmtDate = iso => (iso ? new Intl.DateTimeFormat(locale, { day: "numeric", month: "long", year: "numeric" }).format(P.parseDate(iso)) : "");
+const extLink = (href, label) => `<a href="${esc(href)}" target="_blank" rel="noopener" class="ext">${label}</a>`;
+
+// Place of a session: the hall calendar on the next matching day, or the place as the club names it.
+function placeLink(x) {
+  const h = halls.find(y => y.key === x.hallKey);
+  if (!h) return esc(x.place || "");
+  return `<a href="#/halle/${h.key}?ansicht=tag&datum=${P.isoDate(P.nextDateFor(x.day, currentSeason()))}">${esc(h.name)}</a>`;
+}
+
+function hallClubs(h) {
+  const rows = clubs.flatMap(c => (c.sessions || []).filter(x => x.hallKey === h.key).map(x => ({ c, x })))
+    .sort((a, b) => byDayTime(a.x, b.x));
+  if (!rows.length) return "";
+  return `<section class="hall-clubs">
+    <h2>${t("clubs.inHall")}</h2>
+    <p class="muted small">${t("clubs.fromSites")}</p>
+    <ul class="sessions">${rows.map(({ c, x }) => `<li><span class="when">${sessionTime(x)}</span>
+      <a href="#/vereine?verein=${encodeURIComponent(c.key)}">${esc(c.name)}</a>${x.group ? ` · ${esc(x.group)}` : ""}${x.season ? ` <span class="muted small">(${esc(x.season)})</span>` : ""}</li>`).join("")}</ul>
+  </section>`;
+}
+
+// #/vereine?halle=<key|->&tag=<Wochentag>&sport=<Sportart>&verein=<key>
+function renderClubs(params) {
+  const hallFilter = params.get("halle") || "", dayFilter = params.get("tag") || "", sportFilter = params.get("sport") || "";
+  const sports = [...new Set(clubs.map(c => c.sport).filter(Boolean))].sort((a, b) => a.localeCompare(b, "de"));
+  const filtering = Boolean(hallFilter || dayFilter);
+  const matches = x => (!hallFilter || (hallFilter === "-" ? !x.hallKey : x.hallKey === hallFilter)) && (!dayFilter || x.day === dayFilter);
+  const list = clubs.filter(c => (!sportFilter || c.sport === sportFilter) && (!filtering || (c.sessions || []).some(matches)));
+  const checked = clubs.map(c => c.checkedAt).filter(Boolean).sort().pop();
+  const opt = (value, label, current) => `<option value="${esc(value)}"${value === current ? " selected" : ""}>${esc(label)}</option>`;
+
+  view.innerHTML = `
+    <h1>${t("clubs.title")}</h1>
+    <p>${t("clubs.intro")}</p>
+    ${clubs.length ? `<p class="muted small">${t("clubs.disclaimer", { date: fmtDate(checked) })}</p>
+    <form class="filters" id="club-filter">
+      <label>${t("finder.hall")}
+        <select name="halle">${opt("", t("finder.all"), hallFilter)}${halls.map(h => opt(h.key, h.name, hallFilter)).join("")}${opt("-", t("clubs.otherPlaces"), hallFilter)}</select>
+      </label>
+      <label>${t("col.day")}
+        <select name="tag">${opt("", t("finder.all"), dayFilter)}${DAYS.map(d => opt(d, dayName(d), dayFilter)).join("")}</select>
+      </label>
+      <label>${t("clubs.sport")}
+        <select name="sport">${opt("", t("finder.all"), sportFilter)}${sports.map(x => opt(x, x, sportFilter)).join("")}</select>
+      </label>
+    </form>
+    <p class="muted">${t("clubs.count", { n: list.length })}</p>
+    <div class="clubs">${list.map(c => clubCard(c, filtering ? matches : null)).join("") || `<p class="muted">${t("clubs.none")}</p>`}</div>`
+    : `<p class="muted">${t("clubs.empty")}</p>`}`;
+
+  document.getElementById("club-filter")?.addEventListener("change", e => {
+    const q = new URLSearchParams([...new FormData(e.currentTarget)].filter(([, v]) => v));
+    location.hash = `#/vereine${[...q].length ? "?" + q : ""}`;
+  });
+  const focus = params.get("verein") && document.getElementById(`club-${params.get("verein")}`);
+  if (focus) requestAnimationFrame(() => { focus.classList.add("focus"); focus.scrollIntoView({ block: "start" }); });
+}
+
+function clubCard(c, matches) {
+  const sessions = (c.sessions || []).slice().sort(byDayTime);
+  const contact = [
+    c.website && extLink(c.website, t("clubs.website")),
+    c.contactUrl && c.contactUrl !== c.website && extLink(c.contactUrl, t("clubs.contact")),
+    c.contactEmail && `<a href="mailto:${esc(c.contactEmail)}">${esc(c.contactEmail)}</a>`,
+    c.gemeindeUrl && extLink(c.gemeindeUrl, t("clubs.gemeinde")),
+  ].filter(Boolean);
+  const hosts = [...new Set((c.sources || []).map(u => { try { return new URL(u).hostname.replace(/^www\./, ""); } catch { return u; } }).filter(Boolean))];
+  return `<article class="club" id="club-${esc(c.key)}">
+    <h2>${esc(c.name)}</h2>
+    ${c.sport ? `<p class="sport">${esc(c.sport)}</p>` : ""}
+    ${c.summary ? `<p>${esc(c.summary)}</p>` : ""}
+    ${sessions.length ? `<table class="results compact">
+      <thead><tr><th>${t("col.time")}</th><th>${t("clubs.group")}</th><th>${t("clubs.place")}</th></tr></thead>
+      <tbody>${sessions.map(x => `<tr${matches && matches(x) ? ` class="hit"` : ""}>
+        <td data-label="${esc(t("col.time"))}">${sessionTime(x)}</td>
+        <td data-label="${esc(t("clubs.group"))}">${esc(x.group || "")}${x.season ? ` <span class="muted small">(${esc(x.season)})</span>` : ""}${x.note ? `<br><span class="muted small">${esc(x.note)}</span>` : ""}</td>
+        <td data-label="${esc(t("clubs.place"))}">${placeLink(x)}</td>
+      </tr>`).join("")}</tbody>
+    </table>` : `<p class="muted small">${t("clubs.noTimes")}</p>`}
+    <p class="contact"><strong>${t("clubs.reach")}</strong> ${contact.join(" · ") || "–"}</p>
+    ${hosts.length ? `<p class="muted small">${t("clubs.source")} ${hosts.map(esc).join(", ")}${c.checkedAt ? ` · ${fmtDate(c.checkedAt)}` : ""}</p>` : ""}
+  </article>`;
+}
+
 
 // Hints above the calendar: holidays in the shown period, dates beyond the current plan.
 function planNotices(view, date, validUntil, hall) {
@@ -272,6 +367,7 @@ function menuTree() {
     [t("side.overview"), "#/"],
     ...halls.map(h => [h.name.replace(/^Sporthalle /, ""), `#/halle/${h.key}`]),
     [t("side.free"), "#/frei"],
+    [t("side.clubs"), "#/vereine"],
     [t("side.tips"), "#/tipps"],
   ];
   const sport = [
@@ -339,6 +435,7 @@ function route() {
   if (!parts.length) renderHome();
   else if (parts[0] === "halle") renderHall(parts[1], new URLSearchParams(query));
   else if (parts[0] === "frei") renderFinder(new URLSearchParams(query));
+  else if (parts[0] === "vereine") renderClubs(new URLSearchParams(query));
   else if (parts[0] === "tipps") renderTips();
   else renderNotFound();
   window.scrollTo(0, 0);

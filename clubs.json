@@ -1,0 +1,243 @@
+{
+  "_comment": "Sports clubs of Muri bei Bern: who trains where and how to reach them. Read on 2026-10-14 from the clubs' own websites, the weekly agenda of the local paper Lokal-Nachrichten, statements by the clubs themselves (sources per club) and the club list of the Gemeinde. Club-level contacts only, no personal data. Load with: node scripts/import-clubs.mjs (drafts) – a person publishes in /admin.",
+  "clubs": [
+    {
+      "key": "bsv-bern", "name": "BSV Bern", "sport": "Handball",
+      "summary": "Handball von den #ächtbärnkids bis zur Quickline Handball League (Männer QHL, NLB, 2. und 4. Liga, Frauen 2. Liga, Junioren U11–U19). Gespielt wird in der Mobiliar Arena, der Sporthalle Moos und der Wankdorfhalle.",
+      "website": "https://www.bsvbern.ch/", "contactUrl": "https://www.bsvbern.ch/club#kontakt", "contactEmail": "info@bsvbern.ch",
+      "gemeindeUrl": "https://www.muri-guemligen.ch/freizeit/vereine.html/60/association/12",
+      "sessions": [
+        { "group": "Männer QHL", "day": "Montag", "from": "16:00", "to": "18:00", "place": "Mobiliar Arena Gümligen", "hallKey": null },
+        { "group": "Männer QHL", "day": "Dienstag", "from": "12:00", "to": "14:00", "place": "Mobiliar Arena Gümligen", "hallKey": null },
+        { "group": "Männer QHL", "day": "Mittwoch", "from": "17:00", "to": "19:00", "place": "Mobiliar Arena Gümligen", "hallKey": null },
+        { "group": "Männer QHL", "day": "Donnerstag", "from": "16:00", "to": "18:00", "place": "Mobiliar Arena Gümligen", "hallKey": null },
+        { "group": "Männer QHL", "day": "Freitag", "from": "16:00", "to": "18:00", "place": "Mobiliar Arena Gümligen", "hallKey": null },
+        { "group": "Männer NLB", "day": "Montag", "from": "19:30", "to": "21:30", "place": "Mobiliar Arena Gümligen", "hallKey": null },
+        { "group": "Männer NLB", "day": "Mittwoch", "from": "20:00", "to": "22:00", "place": "Mobiliar Arena Gümligen", "hallKey": null },
+        { "group": "Männer NLB", "day": "Freitag", "from": "20:00", "to": "21:45", "place": "Mobiliar Arena Gümligen", "hallKey": null },
+        { "group": "Männer 2. Liga", "day": "Dienstag", "from": "19:00", "to": "20:30", "place": "Sporthalle Moos", "hallKey": "moos" },
+        { "group": "Männer 2. Liga", "day": "Donnerstag", "from": "19:30", "to": "21:00", "place": "Mobiliar Arena Gümligen", "hallKey": null },
+        { "group": "Männer 4. Liga", "day": "Dienstag", "from": "20:30", "to": "22:00", "place": "Sporthalle Moos", "hallKey": "moos" },
+        { "group": "Männer 4. Liga", "day": "Donnerstag", "from": "19:30", "to": "21:00", "place": "Mobiliar Arena Gümligen", "hallKey": null },
+        { "group": "Frauen 2. Liga", "day": "Dienstag", "from": "19:30", "to": "21:15", "place": "Mobiliar Arena Gümligen", "hallKey": null },
+        { "group": "Junioren U19 Elite, U17 Inter", "day": "Mittwoch", "from": "18:00", "to": "19:30", "place": "Sporthalle Moos", "hallKey": "moos" },
+        { "group": "Junioren U19 Elite", "day": "Freitag", "from": "18:00", "to": "19:30", "place": "Mobiliar Arena Gümligen", "hallKey": null },
+        { "group": "Junioren U17 Inter", "day": "Donnerstag", "from": "18:00", "to": "19:30", "place": "Mobiliar Arena Gümligen", "hallKey": null },
+        { "group": "Junioren U17 Promotion", "day": "Dienstag", "from": "17:30", "to": "19:00", "place": "Sporthalle Wankdorf, Bern", "hallKey": null },
+        { "group": "Junioren U15 Elite", "day": "Dienstag", "from": "17:30", "to": "19:30", "place": "Mobiliar Arena Gümligen", "hallKey": null },
+        { "group": "Junioren U15 Elite", "day": "Freitag", "from": "18:30", "to": "20:00", "place": "Sporthalle Moos", "hallKey": "moos" },
+        { "group": "Junioren U15 Promotion, U13 Inter", "day": "Dienstag", "from": "17:30", "to": "19:00", "place": "Sporthalle Moos", "hallKey": "moos" },
+        { "group": "Junioren U15 Promotion", "day": "Donnerstag", "from": "18:00", "to": "19:30", "place": "Mobiliar Arena Gümligen", "hallKey": null },
+        { "group": "Junioren U13 Inter", "day": "Freitag", "from": "17:00", "to": "19:00", "place": "Sporthalle Moos", "hallKey": "moos" },
+        { "group": "Junioren U13 Promotion", "day": "Mittwoch", "from": "15:00", "to": "16:30", "place": "Sporthalle Moos", "hallKey": "moos" },
+        { "group": "Junioren U13 Promotion", "day": "Freitag", "from": "17:30", "to": "19:00", "place": "Sporthalle Wankdorf, Bern", "hallKey": null },
+        { "group": "Junioren U11, Mixed U13", "day": "Montag", "from": "18:00", "to": "19:30", "place": "Mobiliar Arena Gümligen", "hallKey": null },
+        { "group": "Junioren U11", "day": "Mittwoch", "from": "15:30", "to": "16:45", "place": "Mobiliar Arena Gümligen", "hallKey": null },
+        { "group": "#ächtbärnkids (Jg. 2015–2019)", "day": "Samstag", "from": "09:00", "to": "10:30", "place": "Mobiliar Arena Gümligen", "hallKey": null, "note": "nur an einzelnen Samstagen laut Terminplan" }
+      ],
+      "sources": ["https://www.bsvbern.ch/club", "https://www.bsvbern.ch/teams"], "checkedAt": "2026-10-14"
+    },
+    {
+      "key": "atb-radsportclub-guemligen", "name": "ATB Radsportclub Gümligen", "sport": "Radball",
+      "summary": "Radball-Mannschaften in der Schweizer Radballmeisterschaft. Training in der Seidenberghalle.",
+      "website": "https://www.radsportclub-guemligen.ch/", "contactUrl": null, "contactEmail": "rsc@radsportclub-guemligen.ch",
+      "gemeindeUrl": "https://www.muri-guemligen.ch/freizeit/vereine.html/60/association/10",
+      "sessions": [
+        { "group": "Radball", "day": "Dienstag", "from": "19:30", "to": "22:00", "place": "Seidenberghalle", "hallKey": "seidenberg", "note": "nicht an Feiertagen und in den Schulferien" }
+      ],
+      "sources": ["https://www.radsportclub-guemligen.ch/"], "checkedAt": "2026-10-14"
+    },
+    {
+      "key": "elternclub-muri-guemligen", "name": "Elternclub Muri-Gümligen", "sport": "Eltern-Kind-Turnen, Kinderschwimmen",
+      "summary": "ElKi- und VaKi-Turnen in der Turnhalle Füllerich sowie Schwimmkurse für Kinder und Eltern-Kind-Schwimmen im Lehrschwimmbecken Melchenbühl (für Mitglieder).",
+      "website": "https://www.elternclub.ch/", "contactUrl": null, "contactEmail": "info@elternclub.ch",
+      "gemeindeUrl": "https://www.muri-guemligen.ch/freizeit/vereine.html/60/association/16",
+      "sessions": [
+        { "group": "ElKi-Turnen", "day": "Freitag", "from": "10:00", "to": "11:00", "place": "Turnhalle Füllerich", "hallKey": "fuellerich", "season": "16.10.2026–09.04.2027" },
+        { "group": "VaKi-Turnen", "day": "Samstag", "from": "09:00", "to": "10:00", "place": "Turnhalle Füllerich", "hallKey": "fuellerich", "season": "17.10.2026–03.04.2027", "note": "ausgebucht" },
+        { "group": "Eltern-Kind-Schwimmen", "day": "Dienstag", "from": "16:15", "to": "16:45", "place": "Lehrschwimmbecken Melchenbühl", "hallKey": "lehrschwimmbecken-melchenbuehl" },
+        { "group": "Schwimmkurse", "day": "Dienstag", "from": "16:45", "to": "18:45", "place": "Lehrschwimmbecken Melchenbühl", "hallKey": "lehrschwimmbecken-melchenbuehl", "season": "nächster Kurs ab 16.02.2027" },
+        { "group": "Schwimmkurse", "day": "Mittwoch", "from": "17:00", "to": "19:00", "place": "Lehrschwimmbecken Melchenbühl", "hallKey": "lehrschwimmbecken-melchenbuehl", "season": "nächster Kurs ab 17.02.2027" },
+        { "group": "Schwimmkurse", "day": "Donnerstag", "from": "16:45", "to": "19:15", "place": "Lehrschwimmbecken Melchenbühl", "hallKey": "lehrschwimmbecken-melchenbuehl", "season": "nächster Kurs ab 18.02.2027" }
+      ],
+      "sources": ["https://www.elternclub.ch/sport/elki-vaki-turnen/", "https://www.elternclub.ch/sport/schwimmkurse/", "Lokal-Nachrichten, Agenda (10.09.–15.10.2026)"], "checkedAt": "2026-10-14"
+    },
+    {
+      "key": "fc-muri-guemligen", "name": "FC Muri-Gümligen", "sport": "Fussball",
+      "summary": "Fussballclub mit drei Aktivteams (1. Liga Classic, 3. und 5. Liga), Senioren 50+, Junioren B bis F, Fussballschule und Torhütertraining. Trainiert wird auf den Aussenplätzen Füllerich; ein Winter- bzw. Hallenplan ist auf der Website noch nicht veröffentlicht.",
+      "website": "https://www.fcmg.ch/", "contactUrl": "https://www.fcmg.ch/vorstand/", "contactEmail": null,
+      "gemeindeUrl": "https://www.muri-guemligen.ch/freizeit/vereine.html/60/association/20",
+      "sessions": [
+        { "group": "Aktive I", "day": "Dienstag", "from": "19:00", "to": "20:30", "place": "Sportanlage Füllerich (aussen)", "hallKey": null, "season": "bis 30.10.2026", "note": "auch Mi 19:00–20:30, Fr 18:00–19:30" },
+        { "group": "Aktive II", "day": "Dienstag", "from": "19:00", "to": "20:30", "place": "Sportanlage Füllerich (aussen)", "hallKey": null, "season": "bis 30.10.2026", "note": "auch Do 19:00–20:30" },
+        { "group": "Aktive III", "day": "Dienstag", "from": "19:00", "to": "20:30", "place": "Sportanlage Füllerich (aussen)", "hallKey": null, "season": "bis 30.10.2026", "note": "auch Do 19:00–20:30" },
+        { "group": "Senioren 50+", "day": "Montag", "from": "19:00", "to": "20:30", "place": "Sportanlage Füllerich (aussen)", "hallKey": null, "season": "bis 30.10.2026" },
+        { "group": "Junioren B–F, Fussballschule", "day": "Montag", "from": "17:00", "to": "21:00", "place": "Sportanlage Füllerich (aussen)", "hallKey": null, "season": "bis 30.10.2026", "note": "je nach Team Mo–Fr zwischen 16:30 und 21:00, Details im Trainingsplan des Vereins" }
+      ],
+      "sources": ["https://www.fcmg.ch/uploads/pdf/fcmg-trainings-belegungsplan.pdf", "https://www.fcmg.ch/sportplaetze/"], "checkedAt": "2026-10-14"
+    },
+    {
+      "key": "fc-stella-azzurra", "name": "FC Stella-Azzurra", "sport": "Fussball",
+      "summary": "Fussballclub mit 1. Mannschaft (4. Liga), Senioren 40+ und Junioren C auf den Plätzen Füllerich. Die eigene Website war nicht erreichbar; Zeiten aus dem Trainingsplan des FC Muri-Gümligen.",
+      "website": "http://www.fcstellaazzurra.ch/", "contactUrl": null, "contactEmail": null,
+      "gemeindeUrl": "https://www.muri-guemligen.ch/freizeit/vereine.html/60/association/21",
+      "sessions": [
+        { "group": "1. Mannschaft (4. Liga)", "day": "Mittwoch", "from": "19:30", "to": "21:00", "place": "Sportanlage Füllerich (aussen)", "hallKey": null, "season": "bis 30.10.2026", "note": "auch Fr 19:30–21:00" },
+        { "group": "Senioren 40+", "day": "Mittwoch", "from": "19:30", "to": "21:00", "place": "Sportanlage Füllerich (aussen)", "hallKey": null, "season": "bis 30.10.2026" },
+        { "group": "Junioren C", "day": "Mittwoch", "from": "18:00", "to": "19:30", "place": "Sportanlage Füllerich (aussen)", "hallKey": null, "season": "bis 30.10.2026", "note": "auch Fr 18:00–19:30" }
+      ],
+      "sources": ["https://www.fcmg.ch/uploads/pdf/fcmg-trainings-belegungsplan.pdf"], "checkedAt": "2026-10-14"
+    },
+    {
+      "key": "laufgruppe-gerbersport", "name": "Laufgruppe gerbersport", "sport": "Laufen",
+      "summary": "Lauftraining für Kinder, Jugendliche und Erwachsene: Kraft und Koordination in der Halle, Laufschule, Intervalle und Leistungsgruppe.",
+      "website": "https://www.gerbersport.ch/laufgruppe", "contactUrl": "https://gerbersport.ch/kontakt/", "contactEmail": "kontakt@gerbersport.ch",
+      "gemeindeUrl": "https://www.muri-guemligen.ch/freizeit/vereine.html/60/association/49",
+      "sessions": [
+        { "group": "Kraft und Koordination", "day": "Montag", "from": "19:00", "to": "20:30", "place": "Turnhalle Melchenbühl", "hallKey": "melchenbuehl", "note": "Dauer laut Gemeinde-Eintrag 90 Minuten" },
+        { "group": "Kinder (ab ca. 7 Jahren)", "day": "Mittwoch", "from": "17:00", "to": "18:15", "place": "Sportanlage Füllerich", "hallKey": null },
+        { "group": "Intervalltraining", "day": "Mittwoch", "from": "18:30", "to": "20:00", "place": "draussen, Treffpunkt SOL-ID Athletes World", "hallKey": null },
+        { "group": "Leistungsgruppe", "day": "Samstag", "from": "09:30", "to": null, "place": "draussen, Treffpunkt SOL-ID Athletes World", "hallKey": null }
+      ],
+      "sources": ["https://www.gerbersport.ch/laufgruppe", "Lokal-Nachrichten, Agenda (10.09.–15.10.2026)"], "checkedAt": "2026-10-14"
+    },
+    {
+      "key": "satus-guemligen", "name": "SATUS Gümligen", "sport": "Turnen, Leichtathletik, Tanz",
+      "summary": "Breitensport mit Jugendangeboten (Geräteturnen, Leichtathletik, Tanz) und Aktivgruppen für Frauen, Männer und Seniorinnen.",
+      "website": "https://www.satus-guemligen.ch/", "contactUrl": "https://www.satus-guemligen.ch/index.php/verein/vorstand", "contactEmail": null,
+      "gemeindeUrl": "https://www.muri-guemligen.ch/freizeit/vereine.html/60/association/71",
+      "sessions": [
+        { "group": "Tanz und Spiel", "day": "Dienstag", "from": "17:15", "to": "18:15", "place": "Turnhalle Füllerich", "hallKey": "fuellerich" },
+        { "group": "Tanz Jugend", "day": "Dienstag", "from": "18:15", "to": "19:30", "place": "Turnhalle Füllerich", "hallKey": "fuellerich" },
+        { "group": "Bodytoning (Kurs)", "day": "Dienstag", "from": "19:30", "to": "20:30", "place": "Turnhalle Melchenbühl", "hallKey": "melchenbuehl", "note": "Kurs mit 8–10 Lektionen; die Website nennt nur Kurse 2025" },
+        { "group": "Frauen, Turnerinnen", "day": "Mittwoch", "from": "19:30", "to": "21:00", "place": "Sporthalle Moos", "hallKey": "moos" },
+        { "group": "Geräteturnen Anfänger", "day": "Donnerstag", "from": "18:00", "to": "20:00", "place": "Turnhalle Füllerich", "hallKey": "fuellerich", "note": "zurzeit alle Plätze belegt" },
+        { "group": "Geräteturnen Fortgeschrittene", "day": "Donnerstag", "from": "19:30", "to": "21:00", "place": "Turnhalle Füllerich", "hallKey": "fuellerich" },
+        { "group": "Männer Oldies", "day": "Donnerstag", "from": "18:30", "to": "19:30", "place": "Turnhalle Melchenbühl", "hallKey": "melchenbuehl", "note": "im Sommer bei gutem Wetter draussen" },
+        { "group": "Männer", "day": "Donnerstag", "from": "19:30", "to": "21:00", "place": "Turnhalle Melchenbühl", "hallKey": "melchenbuehl", "note": "im Sommer bei gutem Wetter draussen" },
+        { "group": "Leichtathletik Jugend", "day": "Freitag", "from": "18:00", "to": "19:30", "place": "Sportanlage Füllerich", "hallKey": null },
+        { "group": "Seniorinnen", "day": "Freitag", "from": "08:50", "to": "09:50", "place": "Bärtschihus Gümligen", "hallKey": null }
+      ],
+      "sources": ["https://www.satus-guemligen.ch/", "Lokal-Nachrichten, Agenda (10.09.–15.10.2026)"], "checkedAt": "2026-10-14"
+    },
+    {
+      "key": "seniorenturner-muri-guemligen", "name": "Seniorenturner Muri-Gümligen", "sport": "Seniorenturnen",
+      "summary": "Turnen für Senioren 60+: Kraft, Koordination, Gleichgewicht und Spiele. Offen für alle, Schnuppern jederzeit willkommen.",
+      "website": "https://altersfragen-muri.ch/seniorenturner-muri-guemligen", "contactUrl": null, "contactEmail": null,
+      "gemeindeUrl": "https://www.muri-guemligen.ch/freizeit/vereine.html/60/association/74",
+      "sessions": [
+        { "group": "Seniorenturnen", "day": "Mittwoch", "from": "08:30", "to": "10:00", "place": "Turnhalle Füllerich", "hallKey": "fuellerich", "season": "ausser Schulferien", "note": "die Website nennt noch Dienstag 08:30–09:30" }
+      ],
+      "sources": ["https://altersfragen-muri.ch/seniorenturner-muri-guemligen", "Lokal-Nachrichten, Agenda (10.09.–15.10.2026)"], "checkedAt": "2026-10-14"
+    },
+    {
+      "key": "slrg-muri-guemligen", "name": "SLRG Sektion Muri-Gümligen", "sport": "Rettungsschwimmen, Aquafit",
+      "summary": "Trainings für Jugendliche ab 11 Jahren, Aktive, Senioren und Aquafit sowie Brevet- und BLS-AED-Kurse. Im Winterhalbjahr im Lehrschwimmbecken Melchenbühl, im Sommer im Aarebad und im Wislepark Worb.",
+      "website": "https://rettungsschwimmen.ch/", "contactUrl": "https://rettungsschwimmen.ch/kontakt/", "contactEmail": "info@rettungsschwimmen.ch",
+      "gemeindeUrl": "https://www.muri-guemligen.ch/freizeit/vereine.html/60/association/76",
+      "sessions": [
+        { "group": "Senioren", "day": "Montag", "from": "18:45", "to": "19:45", "place": "Lehrschwimmbecken Melchenbühl", "hallKey": "lehrschwimmbecken-melchenbuehl" },
+        { "group": "Aquafit", "day": "Montag", "from": "19:45", "to": "20:30", "place": "Lehrschwimmbecken Melchenbühl", "hallKey": "lehrschwimmbecken-melchenbuehl" },
+        { "group": "Aktive (Ausdauer und Kraft)", "day": "Montag", "from": "20:30", "to": "21:30", "place": "Lehrschwimmbecken Melchenbühl", "hallKey": "lehrschwimmbecken-melchenbuehl", "season": "Herbstferien bis Mai" },
+        { "group": "Jugend", "day": "Donnerstag", "from": "19:15", "to": "20:15", "place": "Lehrschwimmbecken Melchenbühl", "hallKey": "lehrschwimmbecken-melchenbuehl", "season": "Herbstferien bis Mai" },
+        { "group": "Aktive (Rettungsschwimmen und Technik)", "day": "Donnerstag", "from": "20:15", "to": "21:15", "place": "Lehrschwimmbecken Melchenbühl", "hallKey": "lehrschwimmbecken-melchenbuehl", "season": "Herbstferien bis Mai" },
+        { "group": "Aktive (Ausdauer und Kraft)", "day": "Montag", "from": "19:00", "to": "20:00", "place": "Aarebad Muri", "hallKey": null, "season": "Mai bis Herbstferien" },
+        { "group": "Jugend, Aktive", "day": "Donnerstag", "from": "18:00", "to": "20:00", "place": "Wislepark Worb", "hallKey": null, "season": "Mai bis Herbstferien" }
+      ],
+      "sources": ["https://rettungsschwimmen.ch/training/"], "checkedAt": "2026-10-14"
+    },
+    {
+      "key": "taekwondo-bern", "name": "Taekwondo Bern", "sport": "Taekwondo",
+      "summary": "Taekwondo-Schule mit eigenem Dojang (Power Arena, Feldstrasse 32a, Gümligen): Tigers (4–7 Jahre), Familien-, Jugend- und Erwachsenentraining, Poomsae und Wettkampftraining. Trainiert zusätzlich mittwochs in der Sporthalle Horbern. Kostenloses Schnuppertraining.",
+      "website": "https://www.taekwondobern.ch/", "contactUrl": "https://www.taekwondobern.ch/werde-mitglied", "contactEmail": "info@taekwondobern.ch",
+      "gemeindeUrl": "https://www.muri-guemligen.ch/freizeit/vereine.html/60/association/81",
+      "sessions": [
+        { "group": "Tigers, Familien, Jugend, Erwachsene", "day": "Montag", "from": "16:00", "to": "20:30", "place": "Dojang (Power Arena), Feldstrasse 32a, Gümligen", "hallKey": null },
+        { "group": "Lunchtime Warriors", "day": "Dienstag", "from": "12:15", "to": "13:30", "place": "Dojang (Power Arena), Feldstrasse 32a, Gümligen", "hallKey": null },
+        { "group": "Kyorugi (Kinder bis Wettkampf)", "day": "Dienstag", "from": "17:00", "to": "20:30", "place": "Dojang (Power Arena), Feldstrasse 32a, Gümligen", "hallKey": null },
+        { "group": "Tigers, Familien, Jugend, Erwachsene", "day": "Mittwoch", "from": "16:00", "to": "20:30", "place": "Dojang (Power Arena), Feldstrasse 32a, Gümligen", "hallKey": null },
+        { "group": "Lunchtime Warriors", "day": "Donnerstag", "from": "12:15", "to": "13:30", "place": "Dojang (Power Arena), Feldstrasse 32a, Gümligen", "hallKey": null },
+        { "group": "Kyorugi Leistungszentrum (auf Einladung)", "day": "Donnerstag", "from": "17:45", "to": "21:00", "place": "Dojang (Power Arena), Feldstrasse 32a, Gümligen", "hallKey": null },
+        { "group": "Tigers, Familien, Jugend, Erwachsene", "day": "Freitag", "from": "16:00", "to": "20:30", "place": "Dojang (Power Arena), Feldstrasse 32a, Gümligen", "hallKey": null },
+        { "group": "Wettkampf und Poomsae", "day": "Samstag", "from": "10:00", "to": "14:00", "place": "Dojang (Power Arena), Feldstrasse 32a, Gümligen", "hallKey": null },
+        { "group": "Training", "day": "Mittwoch", "from": "16:30", "to": "18:30", "place": "Sporthalle Horbern", "hallKey": "horbern", "note": "laut Verein; noch nicht auf der Website" }
+      ],
+      "sources": ["https://www.taekwondobern.ch/wochenplan", "Angabe des Vereins (14.10.2026)", "Lokal-Nachrichten, Agenda (10.09.–15.10.2026)"], "checkedAt": "2026-10-14"
+    },
+    {
+      "key": "turnverein-muri-guemligen", "name": "Turnverein Muri-Gümligen", "sport": "Turnen",
+      "summary": "Turnverein mit Sportgruppe und Fitnessriege (gemischt), Frauen 50plus, Senioren und Jugi. Das ElKi-Turnen findet zurzeit nicht statt, weil keine Turnhalle verfügbar ist; Dance for Kids ist pausiert.",
+      "website": "https://www.tv-mg.ch/", "contactUrl": "https://www.tv-mg.ch/kontakt/", "contactEmail": null,
+      "gemeindeUrl": "https://www.muri-guemligen.ch/freizeit/vereine.html/60/association/89",
+      "sessions": [
+        { "group": "Fitnessriege gemischt", "day": "Montag", "from": "19:30", "to": "21:00", "place": "Turnhalle Füllerich", "hallKey": "fuellerich" },
+        { "group": "Senioren", "day": "Mittwoch", "from": "18:15", "to": "19:45", "place": "Turnhalle Melchenbühl", "hallKey": "melchenbuehl" },
+        { "group": "Frauen 50plus", "day": "Mittwoch", "from": "19:45", "to": "21:15", "place": "Turnhalle Melchenbühl", "hallKey": "melchenbuehl", "note": "in den wärmeren Monaten vor allem Walking" },
+        { "group": "Jugi Unter- und Oberstufe", "day": "Donnerstag", "from": "18:00", "to": "19:30", "place": "Sporthalle Moos", "hallKey": "moos" },
+        { "group": "Sportgruppe gemischt", "day": "Freitag", "from": "20:00", "to": "21:45", "place": "Sporthalle Moos", "hallKey": "moos" }
+      ],
+      "sources": ["https://www.tv-mg.ch/turnangebot/", "Lokal-Nachrichten, Agenda (10.09.–15.10.2026)"], "checkedAt": "2026-10-14"
+    },
+    {
+      "key": "bern-capitals", "name": "Unihockeyclub Bern Capitals", "sport": "Unihockey",
+      "summary": "Grosser Unihockeyclub mit Aktivteams, Juniorinnen und Junioren U12–U21 und Unihockeyschule. In Muri trainieren Teams in der Sporthalle Moos und der Schulanlage Aebnit, die übrigen in Bern, Ostermundigen und Bolligen.",
+      "website": "https://berncapitals.ch/", "contactUrl": "https://berncapitals.ch/geschaeftsstelle/", "contactEmail": "info@berncapitals.ch",
+      "gemeindeUrl": "https://www.muri-guemligen.ch/freizeit/vereine.html/60/association/90",
+      "sessions": [
+        { "group": "U18", "day": "Montag", "from": "19:00", "to": "20:30", "place": "Sporthalle Moos", "hallKey": "moos" },
+        { "group": "1. Liga, U21", "day": "Montag", "from": "20:30", "to": "22:30", "place": "Sporthalle Moos", "hallKey": "moos" },
+        { "group": "Junioren D", "day": "Dienstag", "from": "18:00", "to": "19:30", "place": "Schulanlage Aebnit", "hallKey": "aebnit" },
+        { "group": "UHC Bern Ost Senioren", "day": "Dienstag", "from": "20:00", "to": "22:00", "place": "Schulanlage Aebnit", "hallKey": "aebnit" },
+        { "group": "Juniorinnen C", "day": "Mittwoch", "from": "18:00", "to": "20:00", "place": "Schulanlage Aebnit", "hallKey": "aebnit" },
+        { "group": "Unihockeyschule", "day": "Mittwoch", "from": "16:30", "to": "18:00", "place": "Allmendingen", "hallKey": null, "note": "Halle auf der Website nicht genannt" },
+        { "group": "Junioren C", "day": "Mittwoch", "from": "18:00", "to": "19:30", "place": "Allmendingen", "hallKey": null, "note": "Halle auf der Website nicht genannt" },
+        { "group": "4. Liga", "day": "Mittwoch", "from": "20:45", "to": "22:15", "place": "Sporthalle Moos", "hallKey": "moos" },
+        { "group": "Junioren E", "day": "Donnerstag", "from": "18:00", "to": "19:30", "place": "Schulanlage Aebnit", "hallKey": "aebnit" },
+        { "group": "1. Liga", "day": "Donnerstag", "from": "19:30", "to": "21:00", "place": "Sporthalle Moos", "hallKey": "moos" },
+        { "group": "2. und 4. Liga Kleinfeld", "day": "Donnerstag", "from": "20:00", "to": "22:00", "place": "Schulanlage Aebnit", "hallKey": "aebnit" },
+        { "group": "2. Liga", "day": "Donnerstag", "from": "21:00", "to": "22:30", "place": "Sporthalle Moos", "hallKey": "moos" }
+      ],
+      "sources": ["https://berncapitals.ch/geschaeftsstelle/trainings/", "https://berncapitals.ch/geschaeftsstelle/sporthallen/"], "checkedAt": "2026-10-14"
+    },
+    {
+      "key": "verein-tanz-und-bewegung", "name": "Verein Tanz und Bewegung", "sport": "Tanz, Bewegung",
+      "summary": "Verbindet Fachleute aus Tanz und Bewegung in der Gemeinde: Bühnenproduktionen, Feste, Workshops. Die verlinkte Website gehört dem Studio «l'adresse» (Pilates, Yoga, Jazzdance, Zumba); Sporthallen werden dort nicht genannt.",
+      "website": "https://www.ladresse.fit/", "contactUrl": null, "contactEmail": null,
+      "gemeindeUrl": "https://www.muri-guemligen.ch/freizeit/vereine.html/60/association/93",
+      "sessions": [],
+      "sources": ["https://www.ladresse.fit/"], "checkedAt": "2026-10-14"
+    },
+    {
+      "key": "volleymuribern", "name": "volleymuribern", "sport": "Volleyball",
+      "summary": "Volleyball für Damen, Herren, Juniorinnen und Plausch-Mixed. Die meisten Trainings und die Heimspiele finden in der Halle der International School of Bern (Allmendingenweg 9, Muri) statt, einzelne in der Sporthalle Seidenberg und in Bern.",
+      "website": "https://volleymuribern.ch/", "contactUrl": "https://volleymuribern.ch/kontakt/", "contactEmail": "sekretariat@volleymuribern.ch",
+      "gemeindeUrl": "https://www.muri-guemligen.ch/freizeit/vereine.html/60/association/96",
+      "sessions": [
+        { "group": "Damen 1", "day": "Montag", "from": "20:00", "to": "22:00", "place": "International School of Bern, Muri", "hallKey": null, "note": "auch Do 20:00–22:00" },
+        { "group": "Damen 3", "day": "Montag", "from": "20:15", "to": "22:00", "place": "International School of Bern, Muri", "hallKey": null, "note": "auch Mi 18:30–20:00" },
+        { "group": "Damen 2, Damen U18, U20-2, Herren 1. Liga", "day": "Montag", "from": "18:00", "to": "22:00", "place": "ECLF, Bern", "hallKey": null },
+        { "group": "Rookies", "day": "Dienstag", "from": "18:00", "to": "19:30", "place": "Sporthalle Seidenberg", "hallKey": "seidenberg" },
+        { "group": "Damen U20-1", "day": "Dienstag", "from": "18:30", "to": "20:00", "place": "International School of Bern, Muri", "hallKey": null },
+        { "group": "Damen U23", "day": "Dienstag", "from": "19:00", "to": "21:00", "place": "International School of Bern, Muri", "hallKey": null },
+        { "group": "Beginnerinnen", "day": "Dienstag", "from": "20:00", "to": "22:00", "place": "International School of Bern, Muri", "hallKey": null },
+        { "group": "Rookies", "day": "Mittwoch", "from": "18:45", "to": "20:15", "place": "International School of Bern, Muri", "hallKey": null },
+        { "group": "Herren 1. Liga", "day": "Mittwoch", "from": "20:00", "to": "22:00", "place": "International School of Bern, Muri", "hallKey": null },
+        { "group": "Damen 4", "day": "Mittwoch", "from": "20:30", "to": "22:00", "place": "International School of Bern, Muri", "hallKey": null },
+        { "group": "Damen U20-1", "day": "Donnerstag", "from": "18:00", "to": "19:30", "place": "Sporthalle Seidenberg", "hallKey": "seidenberg" },
+        { "group": "Plausch Mixed", "day": "Freitag", "from": "18:15", "to": "20:00", "place": "BFF-Halle Monbijou, Bern", "hallKey": null }
+      ],
+      "sources": ["https://volleymuribern.ch/teams/"], "checkedAt": "2026-10-14"
+    },
+    {
+      "key": "uwh-bern", "name": "Unterwasserhockey Bern", "sport": "Unterwasserhockey",
+      "summary": "Unterwasserhockey für Erwachsene und Junioren im Lehrschwimmbecken Melchenbühl. Schnuppertrainings willkommen.",
+      "website": "https://www.uwhbern.ch/", "contactUrl": null, "contactEmail": null,
+      "gemeindeUrl": null,
+      "sessions": [
+        { "group": "Training", "day": "Dienstag", "from": "20:00", "to": "20:45", "place": "Lehrschwimmbecken Melchenbühl", "hallKey": "lehrschwimmbecken-melchenbuehl" },
+        { "group": "Junioren", "day": "Samstag", "from": "14:00", "to": "14:45", "place": "Lehrschwimmbecken Melchenbühl", "hallKey": "lehrschwimmbecken-melchenbuehl" }
+      ],
+      "sources": ["Lokal-Nachrichten, Agenda (10.09.–15.10.2026)"], "checkedAt": "2026-10-14"
+    }
+  ]
+}
