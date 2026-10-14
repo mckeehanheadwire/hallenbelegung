@@ -506,12 +506,13 @@ const findConflictsTool = {
 const pendingChanges = {
   name: "list_pending_changes",
   title: "Unveröffentlichte Änderungen",
-  description: "Lists draft changes that are not yet published (new, changed or cancelled bookings; new or changed facilities). Publishing is done by a person in the admin page.",
+  description: "Lists draft changes that are not yet published (new, changed or cancelled bookings; new or changed facilities, calendar entries and club entries). Publishing is done by a person in the admin page.",
   inputSchema: { type: "object", properties: {} },
   async run(args, ctx) {
     const w = wren(ctx.env);
     const load = coll => Promise.all([w.list(coll), w.list(coll, { label: "published" }).catch(() => [])]);
-    const [[curB, pubB], [curH, pubH], [curC, pubC]] = await Promise.all([load("bookings"), load("halls"), load("calendar").catch(() => [[], []])]);
+    const [[curB, pubB], [curH, pubH], [curC, pubC], [curV, pubV]] = await Promise.all([load("bookings"), load("halls"),
+      load("calendar").catch(() => [[], []]), load("clubs").catch(() => [[], []])]);
     const changes = [];
     const diff = (cur, pub, kind, fmt) => {
       const pubById = new Map(pub.map(i => [i.id, i]));
@@ -528,6 +529,7 @@ const pendingChanges = {
     };
     diff(curH, pubH, "facility", fmtFacility);
     diff(curC, pubC, "calendar", ({ changedBy, changedAt, ...c }) => c);
+    diff(curV, pubV, "club", ({ changedBy, changedAt, ...c }) => c);
     diff(curB, pubB, "booking", fmtBooking);
     return { total: changes.length, changes };
   },
@@ -630,6 +632,36 @@ const listHolidays = {
   },
 };
 
+const listClubs = {
+  name: "list_clubs",
+  title: "Vereine: wer trainiert wo",
+  description: "Lists the sports clubs of Muri bei Bern with their training times and places and how to contact them (website, contact page, club email). The times come from the clubs' own websites (see sources, checkedAt) and may be outdated or differ from the official occupancy plan, which is authoritative. Filter by hall, weekday or sport.",
+  inputSchema: {
+    type: "object",
+    properties: {
+      hall: { type: "string", description: "Hall key or name, e.g. 'moos'" },
+      day: { type: "string", enum: P.DAYS },
+      sport: { type: "string", description: "Part of the sport, e.g. 'Unihockey'" },
+    },
+  },
+  async run(args, ctx) {
+    const w = wren(ctx.env);
+    let clubs = (await (ctx.drafts ? w.list("clubs") : w.listPublic("clubs")).catch(() => [])).map(i => i.data);
+    let hallKey = null;
+    if (args?.hall) {
+      const { halls } = await loadPlan(ctx, { drafts: ctx.drafts });
+      const h = findHall(halls, args.hall);
+      if (!h) throw new ToolError(`Halle «${args.hall}» nicht gefunden.`);
+      hallKey = h.key;
+    }
+    const hit = x => (!hallKey || x.hallKey === hallKey) && (!args?.day || x.day === args.day);
+    if (args?.sport) clubs = clubs.filter(c => String(c.sport || "").toLowerCase().includes(String(args.sport).toLowerCase()));
+    if (hallKey || args?.day) clubs = clubs.filter(c => (c.sessions || []).some(hit)).map(c => ({ ...c, sessions: c.sessions.filter(hit) }));
+    clubs = clubs.map(({ changedBy, changedAt, ...c }) => c).sort((a, b) => a.name.localeCompare(b.name, "de"));
+    return { total: clubs.length, note: "Angaben von den Websites der Vereine, ohne Gewähr; massgebend ist der Belegungsplan der Gemeinde.", clubs };
+  },
+};
+
 const setCalendarEntry = {
   name: "set_calendar_entry",
   title: "Ferien / Planperiode erfassen",
@@ -669,7 +701,7 @@ const setCalendarEntry = {
   },
 };
 
-export const PUBLIC_TOOLS = [listHalls, getWeekPlan, findFreeSlots, listHolidays, submitRequest];
+export const PUBLIC_TOOLS = [listHalls, getWeekPlan, findFreeSlots, listHolidays, listClubs, submitRequest];
 export const ADMIN_TOOLS = [listRequests, approveRequest, rejectRequest, listBookings, createBooking, updateBooking, cancelBooking, findConflictsTool, createFacility, updateFacility, setCalendarEntry, pendingChanges];
 
 // Run a tool by name. Admin context reads the draft plan for the read tools too.

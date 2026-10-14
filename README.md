@@ -109,6 +109,15 @@ npx wrangler secret put ADMIN_MCP_TOKEN
 plan in half-hour cells. The school holidays (Ferienordnung 2026-27) are in `scripts/setup-wren-dev.mjs`.
 Production data is maintained in the admin page or via the admin MCP server, not by scripts.
 
+`clubs.json` lists the sports clubs – who trains where and when, and how to contact them (club-level
+contacts only) – read from the clubs' own websites (sources and date per club). It feeds the page
+`#/vereine`, the section «Vereine in dieser Halle» and the MCP tool `list_clubs`. To load changes:
+
+```bash
+node scripts/node.mjs scripts/import-clubs.mjs         # production, as drafts – publish in /admin → Entwürfe
+node scripts/node.mjs scripts/import-clubs.mjs --dev   # your test org (also part of npm run setup:wren)
+```
+
 ## Files that must never be committed
 
 `.wren-key`, `.admin-mcp-token`, `.dev.vars` (all in `.gitignore`).

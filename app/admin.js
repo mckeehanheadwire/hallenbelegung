@@ -165,9 +165,11 @@ async function renderDrafts() {
     ${r.total ? `
       <table class="results">
         <thead><tr><th>Art</th><th>Belegung</th><th>Änderung</th><th>Von</th></tr></thead>
-        <tbody>${r.changes.map(x => { const item = x.booking || x.facility; const fmtV = v => typeof v === "object" && v ? JSON.stringify(v) : v ?? "–"; return `<tr>
+        <tbody>${r.changes.map(x => { const item = x[x.kind]; const fmtV = v => typeof v === "object" && v ? JSON.stringify(v) : v ?? "–"; return `<tr>
           <td data-label="Art"><span class="status s-${esc(x.type)}">${esc(x.type)}</span></td>
-          <td data-label="Belegung">${x.kind === "calendar"
+          <td data-label="Belegung">${x.kind === "club"
+            ? `<strong>Verein</strong> ${esc(item.name)}<br><span class="muted small">${esc(item.sport || "")} · ${(item.sessions || []).length} Trainingszeit(en) · Quelle: Vereinswebsite</span>`
+            : x.kind === "calendar"
             ? `<strong>Kalender</strong> ${esc(item.name)}<br><span class="muted small">${esc(item.from)} – ${esc(item.to || item.from)} · ${item.effect === "closed" ? "Hallen geschlossen" : "Schulbelegung entfällt"}</span>`
             : x.kind === "facility"
             ? `<strong>Anlage</strong> ${esc(item.name)}<br><span class="muted small">${esc(item.size || "")}${item.units.length ? " · Teile " + esc(item.units.map(u => u.key).join("+")) : ""}</span>`

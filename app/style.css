@@ -470,3 +470,27 @@ div.proto { display: flex; align-items: center; justify-content: center; gap: 1r
 .dayhead.holiday { background: #fff8e5; }
 .plan .dayhead { flex-direction: column; align-items: center; justify-content: flex-end; }
 @media (max-width: 700px) { .mhol { font-size: .55rem; } }
+
+/* Clubs: who trains where (data from the clubs' websites) */
+.clubs { display: grid; gap: 1.2rem; margin-bottom: 2rem; }
+.club { border: 1px solid var(--line); border-top: 4px solid var(--red); padding: 1rem 1.2rem; scroll-margin-top: 5rem; }
+.club.focus { box-shadow: 0 0 0 3px var(--red); }
+.club h2 { margin-bottom: .1rem; }
+.club .sport { color: var(--muted); font-weight: 600; margin: 0 0 .5rem; }
+.club .contact { margin: .6rem 0 .2rem; }
+.results.compact { margin-bottom: .4rem; font-size: .92rem; }
+.results.compact td { padding: .4rem .5rem; vertical-align: top; }
+.results.compact td:first-child { white-space: nowrap; }
+.results tr.hit td { background: var(--soft); }
+.hall-clubs { margin-top: 2rem; }
+.hall-clubs .sessions { list-style: none; padding: 0; margin: 0; }
+.hall-clubs .sessions li { padding: .4rem 0; border-bottom: 1px solid var(--line); }
+.hall-clubs .when { display: inline-block; min-width: 12rem; font-variant-numeric: tabular-nums; }
+@media (max-width: 700px) {
+  .club { padding: .9rem; }
+  .results.compact tr { grid-template-columns: 1fr; gap: 0; padding: .45rem .3rem; }
+  .results.compact td { padding: 0; }
+  .results.compact td:first-child { font-weight: 700; }
+  .results.compact tr.hit { background: var(--soft); }
+  .hall-clubs .when { display: block; min-width: 0; font-weight: 600; }
+}

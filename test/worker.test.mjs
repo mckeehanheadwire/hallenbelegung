@@ -32,7 +32,7 @@ const view = (d, label) => {
   return v ? { id: d.id, version: v, data: d.versions[v - 1], labels: Object.keys(d.labels) } : null;
 };
 function seed() {
-  db = { halls: [], bookings: [], requests: [], booking_holders: [], calendar: [] };
+  db = { halls: [], bookings: [], requests: [], booking_holders: [], calendar: [], clubs: [] };
   doc("halls", { key: "moos", name: "Sporthalle Moos", size: "27 x 45m" });
   doc("halls", { key: "aebnit", name: "Sporthalle Aebnit", size: "14.2x25m" });
   const b = (hallKey, hall, day, from, to, category) =>
@@ -61,7 +61,7 @@ async function fakeWren(url, init = {}) {
   if (!isPublic && init.headers?.Authorization !== "Bearer wren-key") return ok({ error: "unauthorized" }, 401);
   let mm;
   if (m === "POST" && p === "/tree/plan/_promote") {
-    const promoted = [...db.halls, ...db.bookings, ...db.calendar].map(d => { d.labels.published = d.versions.length; return { documentId: d.id }; });
+    const promoted = [...db.halls, ...db.bookings, ...db.calendar, ...db.clubs].map(d => { d.labels.published = d.versions.length; return { documentId: d.id }; });
     return ok({ promoted });
   }
   if (m === "PUT" && (mm = p.match(/^\/tree\/plan\/(.+)$/))) return ok({ path: "/" + mm[1], documentId: body.documentId });
@@ -69,7 +69,7 @@ async function fakeWren(url, init = {}) {
     const coll = mm[1];
     if (m === "POST") return ok(view(doc(coll, body)), 201);
     // Public reads of bookings only see the published label (like the WREN rule).
-    const label = isPublic && ["bookings", "halls", "calendar"].includes(coll) ? "published" : u.searchParams.get("label");
+    const label = isPublic && ["bookings", "halls", "calendar", "clubs"].includes(coll) ? "published" : u.searchParams.get("label");
     const items = db[coll].map(d => view(d, label)).filter(Boolean);
     const offset = Number(u.searchParams.get("offset") || 0), limit = Number(u.searchParams.get("limit") || 50);
     return ok({ items: items.slice(offset, offset + limit), total: items.length });
@@ -155,7 +155,7 @@ test("public MCP: initialize, tools/list, tools/call, errors", async () => {
   const n = await req("/mcp", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ jsonrpc: "2.0", method: "notifications/initialized" }) });
   assert.equal(n.status, 202);
   const list = await mcp("/mcp", "tools/list", {});
-  assert.deepEqual(list.body.result.tools.map(t => t.name), ["list_halls", "get_week_plan", "find_free_slots", "list_holidays", "submit_request"]);
+  assert.deepEqual(list.body.result.tools.map(t => t.name), ["list_halls", "get_week_plan", "find_free_slots", "list_holidays", "list_clubs", "submit_request"]);
   const plan = await mcp("/mcp", "tools/call", { name: "get_week_plan", arguments: { hall: "moos", season: "winter" } });
   assert.equal(plan.body.result.isError, false);
   assert.equal(plan.body.result.structuredContent.days[0].bookings.length, 2);
@@ -363,4 +363,26 @@ test("WREN_PREFIX puts every collection and tree name of the Worker into its own
   assert.ok(!calls.some(c => /\/api\/v1\/(orgs\/org\/)?(requests|halls|bookings)\b/.test(c.path)), "no unprefixed access");
   const bad = await worker.fetch(new Request(ORIGIN + "/api/halls"), { ...env, WREN_PREFIX: "Bad Prefix" }, ctx);
   assert.equal(bad.status, 500);
+});
+
+test("clubs: public list_clubs shows only published entries, filters by hall and day; drafts appear as pending changes", async () => {
+  const club = (key, name, sport, sessions) => doc("clubs", { key, name, sport, sessions, website: `https://${key}.example`, checkedAt: "2026-10-14" });
+  club("uhc", "UHC Test", "Unihockey", [{ group: "U18", day: "Montag", from: "19:00", to: "20:30", hallKey: "moos" }, { group: "Damen", day: "Dienstag", from: "20:00", to: "22:00", hallKey: "aebnit" }]);
+  club("tv", "TV Test", "Turnen", [{ group: "Jugi", day: "Donnerstag", from: "18:00", to: "19:30", hallKey: "moos" }]);
+  db.clubs[0].labels.published = 1; // TV Test stays a draft
+  const call = async (args, path = "/mcp", headers = {}) => (await mcp(path, "tools/call", { name: "list_clubs", arguments: args }, headers)).body.result.structuredContent;
+
+  const all = await call({});
+  assert.deepEqual(all.clubs.map(c => c.name), ["UHC Test"], "unpublished clubs are not public");
+  const moos = await call({ hall: "Moos" });
+  assert.deepEqual(moos.clubs[0].sessions.map(x => x.group), ["U18"], "only sessions in the hall");
+  assert.equal((await call({ day: "Freitag" })).total, 0);
+  assert.equal((await call({ sport: "unihockey" })).total, 1);
+
+  const auth = { Authorization: "Bearer test-mcp-token" };
+  assert.equal((await call({}, "/mcp/admin", auth)).total, 2, "the admin MCP sees drafts, like its other tools");
+  const pending = (await mcp("/mcp/admin", "tools/call", { name: "list_pending_changes", arguments: {} }, auth)).body.result.structuredContent;
+  const c = pending.changes.find(x => x.kind === "club");
+  assert.equal(c.club.name, "TV Test");
+  assert.equal(c.type, "neu");
 });

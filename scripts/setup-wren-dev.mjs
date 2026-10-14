@@ -3,7 +3,8 @@
 // Usage (from the repo root):  npm run setup:wren   (= node scripts/setup-wren-dev.mjs)
 // Reads WREN_API_KEY (and optional WREN_PREFIX, e.g. "anna-") from .dev.vars; with a prefix, several
 // test environments can live side by side in one WREN account. Creates collections, public read rules,
-// halls (Moos as a three-part hall), the bookings from belegung_bloecke.csv, the school holidays, and
+// halls (Moos as a three-part hall), the bookings from belegung_bloecke.csv, the school holidays, the
+// clubs from clubs.json, and
 // publishes everything (label "published" on the plan tree). Idempotent. Refuses the production org.
 import { readFileSync } from "node:fs";
 
@@ -120,13 +121,13 @@ async function main() {
     console.log(`Note: .dev.vars has WREN_ORG=${VARS.WREN_ORG}, but the key belongs to '${org}'. Set WREN_ORG=${org}.`);
   console.log(`Setting up WREN org '${org}'${PREFIX ? ` with prefix '${PREFIX}'` : ""} …`);
 
-  for (const coll of ["halls", "bookings", "calendar", "booking_holders"])
+  for (const coll of ["halls", "bookings", "calendar", "booking_holders", "clubs"])
     await call("PATCH", `/${coll}/_schema`, { naturalKey: "key" });
 
   // Public read rules (published versions only); requests and booking_holders stay private.
   const perms = ok(await call("GET", "/permissions"), "permissions").permissions;
   const have = new Set(perms.filter(p => p.principal === "*").map(p => p.resource));
-  for (const coll of ["halls", "bookings", "calendar"]) {
+  for (const coll of ["halls", "bookings", "calendar", "clubs"]) {
     if (!have.has(`collection:${PREFIX}${coll}`))
       ok(await call("POST", "/permissions", { principal: "*", resource: `collection:${PREFIX}${coll}`, access: "read", labelFilter: "published" }), `rule ${coll}`);
   }
@@ -162,6 +163,10 @@ async function main() {
   for (const [key, kind, name, from, to] of CALENDAR)
     await upsert("calendar", key, { key, kind, name, from, to, effect: "school", source: CAL_SOURCE });
   console.log(`  calendar: ${CALENDAR.length}`);
+
+  const { clubs } = JSON.parse(readFileSync(new URL("clubs.json", ROOT), "utf8"));
+  for (const club of clubs) await upsert("clubs", club.key, club);
+  console.log(`  clubs: ${clubs.length}`);
 
   const promoted = ok(await call("POST", "/tree/plan/_promote", { label: "published" }), "publish");
   console.log(`Published ${(promoted.promoted || []).length} documents. Set WREN_ORG=${org}${PREFIX ? ` and WREN_PREFIX=${PREFIX}` : ""} in .dev.vars and run: npm run dev`);
